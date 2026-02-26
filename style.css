@@ -1,0 +1,467 @@
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  color: #1e293b;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.container-center {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+  text-align: center;
+}
+
+header {
+  background: #0f172a;
+  color: white;
+  padding: 0;
+  height: 90px;              /* altura real do header */
+  display: flex;
+  align-items: center;
+}
+
+.hero {
+  background: url("imagem-teste-2.jpg") center/cover no-repeat;
+  color: white;
+  padding: 120px 0px;
+  padding-top: 0px;
+  position: relative;
+  filter: contrast(1.1) saturate(1.1);
+}
+
+.hero h2 {
+  font-size: 38px;
+  text-shadow: 0 2px 3px rgba(0,0,0,0.45);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 9px 20px;
+  margin-top: 28px;
+
+  background: #16a34a; /* verde mais sério */
+  color: #ffffff;
+  text-decoration: none;
+
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.15);
+
+  box-shadow: 0 10px 25px rgba(22, 163, 74, 0.25);
+
+  transition: all 0.25s ease;
+}
+
+.btn:hover {
+  background: #15803d;
+}
+
+.benefits {
+  padding-top: 20px;
+}
+
+.grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-top: 30px;
+}
+
+.card {
+  padding: 40px 22px;
+  padding-bottom: 15px;
+  background: #ffffff;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid #e5e7eb;
+
+  /* sombra suave profissional */
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  background: #0f172a;
+  border-radius: 12px 12px 0 0;
+  opacity: 0.85;
+}
+
+.card:hover {
+  /* background: #262626;
+  color: whitesmoke; */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transform: scale(1.05);
+  background: #ededed;
+}
+
+/* .card:hover i {
+  color: whitesmoke;
+} */
+
+.card i {
+  font-size: 38px;
+  margin-bottom: 12px;
+  color: #0f172a;
+}
+
+.btn i {
+  font-size: 25px;
+}
+
+.btn p {
+  font-size: 15px;
+}
+
+.card-background {
+  position: relative;
+  padding: 60px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+
+  transition: all 0.3s ease;
+}
+
+.card-background:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transform: scale(1.05);
+}
+
+.card-background {
+  position: relative;
+  z-index: 0;
+}
+
+.card-background p {
+  position: relative;
+  z-index: 2;
+}
+
+.card-background::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  /* aqui você controla a intensidade */
+  background: rgba(15, 23, 42, 0.55);
+
+  transition: background 0.3s ease;
+}
+
+.cta {
+  background: #0f172a;
+  color: white;
+  padding: 40px 20px;
+  margin-top: 40px;
+  position: relative; /* importante */
+  z-index: 0;
+}
+
+.cta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  /* escurece só a parte de baixo da própria seção */
+  background: linear-gradient(
+    to bottom,
+    rgba(15, 23, 42, 0) 70%,
+    rgba(2, 6, 23, 0.6) 88%,
+    #020617 100%
+  );
+}
+
+.footer {
+  color: #94a3b8;
+  padding-top: 30px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.logo-box {
+  height: 140px;   /* área útil da logo dentro do header */
+  width: 160px;   /* largura máxima que ela pode ocupar */
+  margin: 0 auto; /* centraliza */
+  position: relative;
+  z-index: 2;
+}
+
+.logo-box img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: center;
+
+  display: block;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  /* começa já escuro em cima e mantém consistência */
+  background: linear-gradient(
+    to bottom,
+    rgba(2, 6, 23, 0.65) 0%,
+    rgba(2, 6, 23, 0.60) 35%,
+    rgba(2, 6, 23, 0.55) 65%,
+    rgba(2, 6, 23, 0.60) 100%
+  );
+}
+
+.map-container {
+  width: 100%;
+  height: 170px;
+  border: 0;
+}
+
+.map {
+  color: gray;
+  font-size: 15px;
+  margin-top: 12px;
+}
+
+.cta-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+
+.about {
+  padding: 0;
+}
+
+.about-layout {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  padding: 0px;
+  padding-top: 20px;
+}
+
+.about-text h2 {
+  margin-bottom: 20px;
+  color: #0f172a;
+}
+
+.about-text p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #475569;
+  margin-bottom: 18px;
+}
+
+.about-highlights {
+  margin-top: 25px;
+}
+
+.about-highlights div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.about-highlights i {
+  color: #22c55e;
+}
+
+.about-image img {
+  width: 400px;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+.about-image {
+  margin-top: 70px;
+  height: 180px;
+}
+
+.margin-bottom-logo {
+  margin-bottom: 50px;
+}
+
+.margin-bottom-products {
+  margin-bottom: 80px;
+}
+
+@media (max-width: 768px) {
+
+  /* HERO menor */
+  .hero {
+    padding: 80px 20px 60px;
+    text-align: center;
+  }
+
+  .hero h2 {
+    font-size: 26px;
+    line-height: 1.3;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+
+  /* Logo menor */
+  .logo-box {
+    height: 120px;
+    width: 120px;
+  }
+
+  /* GRID vira 1 coluna natural */
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* Cards mais compactos */
+  .card {
+    padding: 20px 15px;
+  }
+
+  .about {
+    padding: 20px 18px;
+  }
+
+  .card-background {
+    padding: 40px 20px;
+  }
+
+  /* CTA quebra para coluna */
+  .cta-layout {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .about-layout {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .contact {
+    width: 100%;
+  }
+
+  .map {
+    width: 100%;
+  }
+
+  /* Mapa maior no celular (melhora UX) */
+  .map-container {
+    height: 240px;
+  }
+
+  /* Ajuste tipografia */
+  .contact h2 {
+    font-size: 22px;
+  }
+
+  .contact p {
+    font-size: 13px;
+  }
+
+  /* Botão mais confortável ao toque */
+  .btn {
+    padding: 12px 18px;
+    font-size: 15px;
+  }
+
+  .benefits h2, .about-layout h2 {
+    font-size: 20px;
+  }
+
+  .no-margin-bottom {
+    margin-bottom: -5px;
+  }
+
+  .margin-bottom-logo {
+    margin-bottom: 0px;
+  }
+
+  .about-image img {
+    width: 100%;
+  }
+
+  .about-image {
+    margin-top: -15px;
+  }
+
+  .about-text {
+    margin-left: 7px;
+  }
+
+}
+
+/* FIX GLOBAL */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+/* imagens nunca vazam */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* flex não estoura */
+.cta-layout {
+  flex-wrap: wrap;
+}
+
+.map {
+  width: 100%;
+  min-width: 0;
+}
+
+/* remove animação que quebra no mobile */
+@media (max-width: 768px) {
+  .card:hover,
+  .card-background:hover {
+    transform: none;
+  }
+}

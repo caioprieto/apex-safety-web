@@ -323,6 +323,12 @@ header {
   margin-bottom: 80px;
 }
 
+.contact-item {
+  display: flex; 
+  align-items: center; 
+  gap: 10px;
+}
+
 @media (max-width: 768px) {
 
   /* HERO menor */
@@ -342,8 +348,8 @@ header {
 
   /* Logo menor */
   .logo-box {
-    height: 120px;
-    width: 120px;
+    height: 170px;
+    width: 170px;
   }
 
   /* GRID vira 1 coluna natural */

@@ -122,7 +122,6 @@ header {
 
 .card i {
   font-size: 38px;
-  margin-bottom: 12px;
   color: #0f172a;
 }
 
@@ -434,6 +433,9 @@ header {
     margin-left: 7px;
   }
 
+  .map p {
+    font-size: 13px;
+  }
 }
 
 /* FIX GLOBAL */

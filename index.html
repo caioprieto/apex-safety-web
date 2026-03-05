@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <title>Apex Safety | Equipamentos de EPI</title>
 
-    <link rel="icon" href="icon-site.png" sizes="any">
-    <link rel="icon" type="image/png" sizes="32x32" href="icon-site.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="icon-site.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="icon-site.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="icon-site.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-site.png">
+    <link rel="apple-touch-icon" href="icon-site.png">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="http://apexsafety.com.br/">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Equipamentos de proteção individual certificados. Solicite orçamento com a Apex Safety.">
@@ -112,7 +113,11 @@
           </div> -->
           <div class="contact-item">
             <i class="fa-solid fa-envelope"></i>
-            <p style="margin-bottom: 17px;">atendimento@apexsafety.com.br</p>
+            <button class="copy-btn" onclick="copyEmail()" aria-label="Copiar email">
+              <p id="email-text" class="margin-bottom-mobile-text">atendimento@apexsafety.com.br</p>
+              <i class="fa-regular fa-copy margin-bottom-mobile-text-minimum"></i>
+            </button>
+            <span id="copy-feedback" class="copy-feedback no-mobile">Copiado!</span>
           </div>
           <div class="contact-item">
             <i class="fa-regular fa-clock"></i>

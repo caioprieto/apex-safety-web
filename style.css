@@ -167,10 +167,7 @@ header {
   content: "";
   position: absolute;
   inset: 0;
-
-  /* aqui você controla a intensidade */
   background: rgba(15, 23, 42, 0.55);
-
   transition: background 0.3s ease;
 }
 
@@ -179,7 +176,7 @@ header {
   color: white;
   padding: 40px 20px;
   margin-top: 40px;
-  position: relative; /* importante */
+  position: relative;
   z-index: 0;
 }
 
@@ -188,8 +185,6 @@ header {
   position: absolute;
   inset: 0;
   pointer-events: none;
-
-  /* escurece só a parte de baixo da própria seção */
   background: linear-gradient(
     to bottom,
     rgba(15, 23, 42, 0) 70%,
@@ -207,9 +202,9 @@ header {
 }
 
 .logo-box {
-  height: 140px;   /* área útil da logo dentro do header */
-  width: 160px;   /* largura máxima que ela pode ocupar */
-  margin: 0 auto; /* centraliza */
+  height: 140px;
+  width: 160px;
+  margin: 0 auto;
   position: relative;
   z-index: 2;
 }
@@ -230,13 +225,12 @@ header {
   inset: 0;
   z-index: 1;
 
-  /* começa já escuro em cima e mantém consistência */
   background: linear-gradient(
     to bottom,
-    rgba(2, 6, 23, 0.65) 0%,
-    rgba(2, 6, 23, 0.60) 35%,
-    rgba(2, 6, 23, 0.55) 65%,
-    rgba(2, 6, 23, 0.60) 100%
+    rgba(2, 6, 23, 0.55) 0%,
+    rgba(2, 6, 23, 0.50) 35%,
+    rgba(2, 6, 23, 0.45) 65%,
+    rgba(2, 6, 23, 0.50) 100%
   );
 }
 
@@ -328,9 +322,53 @@ header {
   gap: 10px;
 }
 
-@media (max-width: 768px) {
+.copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: -4px;
+  font-size: 18px;
+  color: #ffffff;
+  transition: color 0.2s ease;
+}
 
-  /* HERO menor */
+#email-text {
+  font-size: 16px;
+}
+
+.copy-btn:hover {
+  color: gray;
+}
+
+.copy-feedback {
+  margin-top: -3px;
+  margin-left: -5px;
+  font-size: 14px;
+  color: #2ecc71;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.margin-bottom-mobile-text {
+  margin-bottom: 17px;
+}
+
+.margin-bottom-mobile-text-minimum {
+  margin-top: -3px;
+}
+
+@media (max-width: 768px) {
+  .margin-bottom-mobile-text {
+    margin-bottom: 15px;
+  }
+
+  .margin-bottom-mobile-text-minimum {
+    margin-top: 0px;
+  }
+
   .hero {
     padding: 80px 20px 60px;
     text-align: center;
@@ -345,19 +383,16 @@ header {
     font-size: 15px;
   }
 
-  /* Logo menor */
   .logo-box {
     height: 170px;
     width: 170px;
   }
 
-  /* GRID vira 1 coluna natural */
   .grid {
     grid-template-columns: 1fr;
     gap: 16px;
   }
 
-  /* Cards mais compactos */
   .card {
     padding: 20px 15px;
   }
@@ -370,7 +405,6 @@ header {
     padding: 40px 20px;
   }
 
-  /* CTA quebra para coluna */
   .cta-layout {
     flex-direction: column;
     gap: 30px;
@@ -389,12 +423,10 @@ header {
     width: 100%;
   }
 
-  /* Mapa maior no celular (melhora UX) */
   .map-container {
     height: 240px;
   }
 
-  /* Ajuste tipografia */
   .contact h2 {
     font-size: 22px;
   }
@@ -403,7 +435,6 @@ header {
     font-size: 13px;
   }
 
-  /* Botão mais confortável ao toque */
   .btn {
     padding: 12px 18px;
     font-size: 15px;
@@ -436,9 +467,12 @@ header {
   .map p {
     font-size: 13px;
   }
+
+  .no-mobile {
+    display: none;
+  }
 }
 
-/* FIX GLOBAL */
 *,
 *::before,
 *::after {
@@ -449,14 +483,12 @@ html, body {
   overflow-x: hidden;
 }
 
-/* imagens nunca vazam */
 img {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-/* flex não estoura */
 .cta-layout {
   flex-wrap: wrap;
 }
@@ -466,7 +498,6 @@ img {
   min-width: 0;
 }
 
-/* remove animação que quebra no mobile */
 @media (max-width: 768px) {
   .card:hover,
   .card-background:hover {

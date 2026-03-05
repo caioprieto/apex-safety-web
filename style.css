@@ -326,13 +326,16 @@ header {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: none;
+  background: transparent;
+  padding: 0;
   border: none;
   cursor: pointer;
-  margin-left: -4px;
+  margin-left: -2px;
   font-size: 18px;
   color: #ffffff;
   transition: color 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 #email-text {
@@ -345,7 +348,7 @@ header {
 
 .copy-feedback {
   margin-top: -3px;
-  margin-left: -5px;
+  margin-left: -3px;
   font-size: 14px;
   color: #2ecc71;
   opacity: 0;
@@ -363,6 +366,10 @@ header {
 @media (max-width: 768px) {
   .margin-bottom-mobile-text {
     margin-bottom: 15px;
+  }
+
+  .copy-feedback, #copy-feedback {
+    display: none;
   }
 
   .margin-bottom-mobile-text-minimum {

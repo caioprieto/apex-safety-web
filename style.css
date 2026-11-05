@@ -17,7 +17,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; background: #0a0d1c; }
 body { margin: 0; font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.5; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
@@ -547,13 +547,15 @@ body.no-scroll { overflow: hidden; }
   .home .nav-links > li > a .chev { font-size: 11px; margin: 0; }
   .menu-cta { display: block; margin-top: 10px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.1); }
   .menu-cta .btn { border-radius: 14px; }
-  .home .dropdown { padding: 4px 0 6px; }
+  .home .dropdown { padding: 4px 0 0; margin-bottom: 0; }
   .home .dd-grid { grid-template-columns: 1fr 1fr; gap: 8px; padding: 6px 0 4px; }
   .home .dd-grid a { flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); border-radius: 14px; }
   .home .dd-grid a small { display: none; }
   .home .dd-grid a b { font-size: 13px; color: #fff; }
   .home .dd-ico { width: 32px; height: 32px; background: rgba(244,124,58,.18); color: var(--orange); }
-  .home .nav-links .dd-all { margin: 8px 0 0; border-radius: 12px; background: rgba(255,255,255,.06); }
+  .home .nav-links .dd-all { margin: 4px 0 0; padding: 14px 16px; border-radius: 14px; background: transparent; font-size: 16px; font-weight: 600; color: #e8e9f2; box-shadow: none; }
+  .home .nav-links .dd-all:hover { background: rgba(255,255,255,.06); color: #fff; }
+  .home .nav-links .dd-all i { font-size: 11px; }
 }
 
 /* Mobile: texto no pé do hero, imagem livre e viva no topo */
@@ -679,14 +681,14 @@ body.no-scroll { overflow: hidden; }
 .cat-art { justify-items: center; align-items: center; }
 
 /* Carrossel de publicações */
-.sc-viewport { overflow: hidden; border-radius: 18px; padding: 2px 0 18px; margin: 0 -2px; touch-action: pan-y; cursor: grab; }
+.sc-viewport { overflow: hidden; border-radius: 18px; padding: 2px 0 18px; margin: 0 -2px; touch-action: pan-y; cursor: grab; -webkit-tap-highlight-color: transparent; overscroll-behavior-x: contain; }
 .sc-viewport.dragging { cursor: grabbing; }
-.sc-track { display: flex; gap: 14px; will-change: transform; padding: 0 2px; }
+.sc-track { display: flex; gap: 14px; will-change: transform; transform: translate3d(0,0,0); backface-visibility: hidden; padding: 0 2px; }
 .sc-card { position: relative; flex: 0 0 auto; aspect-ratio: 1.2; border-radius: 16px; overflow: hidden; background: #1c1f33; color: #fff; display: flex; flex-direction: column; justify-content: flex-end; box-shadow: 0 16px 28px -18px rgba(10,13,28,.65); isolation: isolate; user-select: none; }
 .sc-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform .6s ease; pointer-events: none; }
 .sc-card::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(10,13,28,0) 35%, rgba(10,13,28,.9) 100%); }
 .sc-card:hover img { transform: scale(1.06); }
-.sc-type { position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-size: 14px; background: rgba(10,13,28,.6); border: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(6px); }
+.sc-type { position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-size: 14px; background: rgba(10,13,28,.72); border: 1px solid rgba(255,255,255,.14); }
 .sc-text { padding: 0 16px 16px; }
 .sc-text::before { content: ""; display: block; width: 30px; height: 3px; border-radius: 2px; background: var(--orange); margin-bottom: 10px; }
 .sc-text h4 { color: #fff; font: 700 15px/1.12 var(--display); letter-spacing: -.01em; max-width: 90%; }
@@ -846,7 +848,7 @@ a.cr:hover .cr-go, a.cr:focus-visible .cr-go { transform: translateX(2px); backg
 /* Cartões de contato: alinhados ao topo do formulário e acompanham o scroll */
 .form-wrap > .side { align-self: start; position: sticky; top: 104px; gap: 14px; }
 .form-wrap > .side .person-img { margin-top: 0; }
-@media (max-width: 820px) { .form-wrap > .side { position: static; } }
+@media (max-width: 820px) { .form-wrap > .side { position: static; } main .form-wrap { padding-bottom: 0; } main > .container + .section { padding-top: 29px; } }
 .form-wrap { padding-bottom: 32px; }
 
 /* Cartões de contato clicáveis (ligar) */
@@ -1040,6 +1042,7 @@ a.cr:hover .cr-go, a.cr:focus-visible .cr-go { transform: translateX(2px); backg
 /* Mobile: os dois botões da hero com exatamente a mesma fonte */
 @media (max-width: 820px) {
   .hero-home .hero-actions a.btn.btn-cta-lg { font: 700 15px/1 var(--display) !important; letter-spacing: -.005em !important; text-transform: none; }
+  .hero-home .hero-actions a.btn.btn-cta-gray { font-size: 14px !important; }
 }
 
 /* Logo maior no mobile, mantendo a altura da navbar (84px) */
@@ -1064,3 +1067,6 @@ a.cr:hover .cr-go, a.cr:focus-visible .cr-go { transform: translateX(2px); backg
 @media (max-width: 820px) {
   .site-header .brand img, .site-header.scrolled .brand img { height: 48px; }
 }
+
+/* mobile: espaço entre blocos finais e "Toda a segurança..." */
+@media (max-width: 820px) { main .about-sec { padding-bottom: 0; } main .about-sec + .section { padding-top: 29px; } }

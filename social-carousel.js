@@ -12,12 +12,8 @@
 
   function move(to, animate) {
     x = to;
-    if (G()) {
-      G().to(track, { x: to, duration: animate ? .8 : 0, ease: "power3.inOut", overwrite: true });
-    } else {
-      track.style.transition = animate ? "transform .7s cubic-bezier(.65,0,.35,1)" : "none";
-      track.style.transform = "translate3d(" + to + "px,0,0)";
-    }
+    track.style.transition = animate ? "transform .6s cubic-bezier(.22,1,.36,1)" : "none";
+    track.style.transform = "translate3d(" + to + "px,0,0)";
   }
 
   function renderDots() {
@@ -55,25 +51,34 @@
   function stop() { clearInterval(timer); timer = null; }
 
   /* arrastar / deslizar */
-  var startX = 0, startPos = 0, moved = 0;
+  var startX = 0, startPos = 0, moved = 0, raf = 0, lastX = 0, lastT = 0, vel = 0;
+  function paint() { raf = 0; track.style.transform = "translate3d(" + x + "px,0,0)"; }
   viewport.addEventListener("pointerdown", function (e) {
     if (e.pointerType === "mouse" && e.button !== 0) return;
-    dragging = true; moved = 0; startX = e.clientX; startPos = x; stop();
-    if (G()) G().killTweensOf(track);
-    track.style.transition = "none";
-    viewport.setPointerCapture(e.pointerId); viewport.classList.add("dragging");
+    dragging = true; moved = 0; vel = 0; startX = lastX = e.clientX; lastT = e.timeStamp; stop();
+    /* pega a posição atual caso esteja no meio da transição */
+    x = startPos = new DOMMatrixReadOnly(getComputedStyle(track).transform).m41;
+    track.style.transition = "none"; track.style.transform = "translate3d(" + x + "px,0,0)";
+    try { viewport.setPointerCapture(e.pointerId); } catch (_) {}
+    viewport.classList.add("dragging");
   });
   viewport.addEventListener("pointermove", function (e) {
     if (!dragging) return;
     moved = e.clientX - startX;
-    var min = xFor(pages - 1), pos = Math.max(min - 60, Math.min(60, startPos + moved));
+    var dt = e.timeStamp - lastT;
+    if (dt > 0) vel = .8 * vel + .2 * ((e.clientX - lastX) / dt);
+    lastX = e.clientX; lastT = e.timeStamp;
+    var min = xFor(pages - 1), raw = startPos + moved, pos = raw;
+    if (raw > 0) pos = raw * .35; else if (raw < min) pos = min + (raw - min) * .35; /* elástico nas pontas */
     x = pos;
-    if (G()) G().set(track, { x: pos }); else track.style.transform = "translate3d(" + pos + "px,0,0)";
-  });
+    if (!raf) raf = requestAnimationFrame(paint); /* 1 escrita por frame */
+  }, { passive: true });
   var end = function () {
     if (!dragging) return;
     dragging = false; viewport.classList.remove("dragging");
-    if (Math.abs(moved) > 50) go(page + (moved < 0 ? 1 : -1)); else go(page);
+    if (raf) { cancelAnimationFrame(raf); raf = 0; }
+    var flick = Math.abs(vel) > .4;
+    if (Math.abs(moved) > 50 || flick) go(page + ((flick ? vel : moved) < 0 ? 1 : -1)); else go(page);
     restart();
   };
   viewport.addEventListener("pointerup", end);

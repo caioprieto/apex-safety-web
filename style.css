@@ -1634,3 +1634,27 @@ select.sr-only-select { position: absolute; width: 1px; height: 1px; opacity: 0;
 .field .dds-list li:hover, .field .dds-list li:focus { background: #f6f7f9; }
 .field .dds-list li.on { background: #f0f3f7; border-color: #e1e6ed; font-weight: 600; }
 .field .dds-list li > i { color: #455770; }
+
+/* Setas do hero: estado ativo bem mais forte (o estado de repouso continua discreto) */
+.hero-arrow:hover, .hero-arrow:focus-visible { opacity: 1; color: #fff; background: var(--orange); border-color: var(--orange); box-shadow: 0 8px 22px -6px rgba(244,124,58,.75), 0 0 0 4px rgba(244,124,58,.22); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.hero-arrow:active { opacity: 1; color: #fff; background: #e0560b; border-color: #e0560b; transform: scale(.92); box-shadow: 0 4px 12px -4px rgba(224,86,11,.8), 0 0 0 6px rgba(244,124,58,.28); }
+.hero-arrow:hover svg, .hero-arrow:focus-visible svg, .hero-arrow:active svg { stroke-width: 2.6; }
+@media (hover: none) { .hero-arrow:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.14); color: rgba(255,255,255,.6); box-shadow: none; opacity: .7; } .hero-arrow:active { background: #e0560b; color: #fff; opacity: 1; } }
+
+/* Setas do hero: ativo no mesmo padrão cinza/vidro, só que bem mais opaco */
+.hero-arrow:hover, .hero-arrow:focus-visible { opacity: 1; color: #fff; background: rgba(255,255,255,.28); border-color: rgba(255,255,255,.55); box-shadow: 0 6px 18px -6px rgba(0,0,0,.55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.hero-arrow:active { opacity: 1; color: #fff; background: rgba(255,255,255,.4); border-color: rgba(255,255,255,.7); box-shadow: 0 2px 8px -4px rgba(0,0,0,.6); transform: scale(.93); }
+@media (hover: none) { .hero-arrow:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.14); color: rgba(255,255,255,.6); box-shadow: none; opacity: .7; } .hero-arrow:active { background: rgba(255,255,255,.4); border-color: rgba(255,255,255,.7); color: #fff; opacity: 1; } }
+
+/* Setas do hero: repouso mais forte (hover/clique continuam ainda mais fortes) */
+.hero-arrow { opacity: 1; color: rgba(255,255,255,.92); background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.4); box-shadow: 0 4px 14px -6px rgba(0,0,0,.5); }
+.hero-arrow:hover, .hero-arrow:focus-visible { background: rgba(255,255,255,.34); border-color: rgba(255,255,255,.7); color: #fff; }
+.hero-arrow:active { background: rgba(255,255,255,.46); border-color: rgba(255,255,255,.85); }
+@media (max-width: 820px) { .hero-arrow { opacity: 1; } }
+@media (hover: none) { .hero-arrow:hover { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.4); color: rgba(255,255,255,.92); box-shadow: 0 4px 14px -6px rgba(0,0,0,.5); opacity: 1; } .hero-arrow:active { background: rgba(255,255,255,.46); border-color: rgba(255,255,255,.85); color: #fff; } }
+
+/* Setas do hero: repouso um pouco mais forte */
+.hero-arrow { color: #fff; background: rgba(255,255,255,.24); border-color: rgba(255,255,255,.55); box-shadow: 0 4px 16px -6px rgba(0,0,0,.55); }
+.hero-arrow:hover, .hero-arrow:focus-visible { background: rgba(255,255,255,.42); border-color: rgba(255,255,255,.8); }
+.hero-arrow:active { background: rgba(255,255,255,.54); border-color: rgba(255,255,255,.92); }
+@media (hover: none) { .hero-arrow:hover { background: rgba(255,255,255,.24); border-color: rgba(255,255,255,.55); color: #fff; box-shadow: 0 4px 16px -6px rgba(0,0,0,.55); } .hero-arrow:active { background: rgba(255,255,255,.54); border-color: rgba(255,255,255,.92); } }

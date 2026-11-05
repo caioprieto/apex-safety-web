@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solicitar orçamento | Apex Safety</title>
+  <meta name="description" content="Conte um pouco sobre a sua empresa e receba uma proposta de EPIs sob medida.">
+  <link rel="icon" type="image/png" href="icon-site.png?v=3">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="preloader.js"></script>
+</head>
+<body class="home inner no-hero">
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="brand" aria-label="Apex Safety"><img src="logo-apex.png" alt="Apex Safety" width="144" height="48"></a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="produtos.html">Produtos</a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="orcamento.html" class="active">Contato</a></li>
+      </ul>
+      <div class="nav-right">
+        <a class="nav-phone" href="tel:+5519996952906"><i class="fa-solid fa-phone"></i> (19) 99695-2906</a>
+        <a class="nav-phone nav-mail" href="mailto:atendimento@apexsafety.com.br" aria-label="Enviar e-mail para atendimento@apexsafety.com.br"><i class="fa-regular fa-envelope"></i> atendimento@apexsafety.com.br</a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="form-wrap">
+        <form class="form-card" id="quote-form" novalidate>
+          <header><h2>Solicitar orçamento</h2><span>Campos com * são obrigatórios.</span></header>
+          <div class="fields">
+            <div class="field"><label for="nome">Nome completo *</label><input id="nome" name="nome" placeholder="Seu nome" autocomplete="name" required></div>
+            <div class="field"><label for="tel">Telefone / WhatsApp *</label><input id="tel" name="tel" type="tel" inputmode="tel" placeholder="(19) 00000-0000" autocomplete="tel" required></div>
+            <div class="field field-company full"><label for="empresa">Nome da empresa *</label><input id="empresa" name="empresa" placeholder="Razão social ou nome fantasia" autocomplete="organization" required></div>
+            <div class="field full"><label for="colab">Nº de colaboradores</label>
+              <select id="colab" name="colab"><option>Até 20</option><option>21 a 50</option><option>51 a 100</option><option>101 a 500</option><option>Mais de 500</option></select></div>
+          </div>
+          <div class="lbl" style="margin-top:18px">Quais linhas interessam?</div>
+          <div class="chips sel" id="lines">
+            <button type="button" class="chip" data-l="cabeca">Cabeça</button>
+            <button type="button" class="chip" data-l="maos">Mãos</button>
+            <button type="button" class="chip" data-l="visual">Visual</button>
+            <button type="button" class="chip" data-l="auditiva">Auditiva</button>
+            <button type="button" class="chip" data-l="vestimentas">Vestimentas</button>
+            <button type="button" class="chip" data-l="altura">Altura</button>
+            <button type="button" class="chip" data-l="pes">Pés</button>
+          </div>
+          <div class="field full"><label for="msg">Mensagem</label><textarea id="msg" name="msg" rows="4" placeholder="Funções, riscos, quantidades, prazos..."></textarea></div>
+          <div class="field full field-opt"><label for="cnpj">CNPJ <em>(opcional)</em></label><input id="cnpj" name="cnpj" inputmode="numeric" placeholder="00.000.000/0000-00"></div>
+          <div class="form-foot">
+            <p class="lgpd"><i class="fa-solid fa-lock"></i> Ao enviar, você concorda com o uso dos dados para contato comercial, conforme a LGPD.</p>
+            <button class="btn btn-primary btn-lg btn-nav-cta btn-cta-lg" type="submit">Enviar solicitação <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+          <div class="form-ok" id="form-ok" role="status"></div>
+        </form>
+
+        <aside class="side">
+          <!-- <div class="side-card">
+            <h3>Atendimento direto</h3>
+            <div class="cr-list">
+              <a class="cr " href="tel:+5519996952906" aria-label="Ligar para Irineu, comercial"><span class="cr-ico"><i class="fa-solid fa-phone"></i></span><span class="cr-txt"><small>Comercial · Irineu</small><b>(19) 99695-2906</b></span><span class="cr-go"><i class="fa-solid fa-arrow-right"></i></span></a>
+              <a class="cr " href="tel:+5519981358900" aria-label="Ligar para Angelita, financeiro"><span class="cr-ico"><i class="fa-solid fa-phone"></i></span><span class="cr-txt"><small>Financeiro · Angelita</small><b>(19) 98135-8900</b></span><span class="cr-go"><i class="fa-solid fa-arrow-right"></i></span></a>
+              <a class="cr cr-sm" href="mailto:contato@apexsafety.com.br?subject=Solicita%C3%A7%C3%A3o%20de%20or%C3%A7amento" aria-label="Enviar e-mail"><span class="cr-ico"><i class="fa-regular fa-envelope"></i></span><span class="cr-txt"><small>E-mail</small><b>contato@apexsafety.com.br</b></span><span class="cr-go"><i class="fa-solid fa-arrow-right"></i></span></a>
+              <a class="cr cr-sm" href="https://www.google.com/maps/search/?api=1&amp;query=Rua%20dos%20Coroados%2C%20131%20-%20Campinho%2C%20Araras%2FSP" target="_blank" rel="noopener"><span class="cr-ico"><i class="fa-solid fa-location-dot"></i></span><span class="cr-txt"><small>Endereço · Araras/SP</small><b>Rua dos Coroados, 131 – Campinho</b></span><span class="cr-go"><i class="fa-solid fa-arrow-right"></i></span></a>
+              <a class="cr cr-sm" href="https://www.google.com/maps/search/?api=1&amp;query=Rua%20Anthero%20Paulo%20Pereira%2C%20994%20-%20Pires%2C%20Extrema%2FMG" target="_blank" rel="noopener"><span class="cr-ico"><i class="fa-solid fa-location-dot"></i></span><span class="cr-txt"><small>Endereço · Extrema/MG</small><b>Rua Anthero Paulo Pereira, 994 – Pires</b></span><span class="cr-go"><i class="fa-solid fa-arrow-right"></i></span></a>
+              <div class="cr cr-off"><span class="cr-ico"><i class="fa-regular fa-clock"></i></span><span class="cr-txt"><small>Horário</small><b>[HORÁRIO DE ATENDIMENTO]</b></span></div>
+            </div>
+          </div> -->
+
+          <a class="person-link" href="tel:+5519996952906" aria-label="Ligar para Irineu Curtulo Neto (comercial): (19) 99695-2906" draggable="false"><img class="person-img" src="imagens/contatos/irineu-curtulo-neto.png" alt="Cartão de contato: Irineu Curtulo Neto, Departamento Comercial" width="600" height="200" loading="lazy" decoding="async" draggable="false"><span class="call-chip"><i class="fa-solid fa-phone"></i> Ligar agora</span></a>
+          <a class="person-link" href="tel:+5519981358900" aria-label="Ligar para Angelita Almeida (financeiro): (19) 98135-8900" draggable="false"><img class="person-img" src="imagens/contatos/angelita-almeida.png" alt="Cartão de contato: Angelita Almeida, Controladoria/Financeiro" width="600" height="200" loading="lazy" decoding="async" draggable="false"><span class="call-chip"><i class="fa-solid fa-phone"></i> Ligar agora</span></a>
+        </aside>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div class="sec-head">
+          <div>
+            <h2 class="title">Toda a segurança da sua equipe em um único lugar.</h2>
+          </div>
+          <a class="link-orange" href="produtos.html">Ver todos os produtos <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="cat-grid">
+          <a class="cat" href="produtos.html?linha=cabeca"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-helmet-safety"></i></span><h3>Proteção da cabeça</h3><p>Capacetes e acessórios para impacto e trabalho em campo.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/cabeca.webp?v=4" alt="Capacete de segurança" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-helmet-safety cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=maos"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-hand"></i></span><h3>Proteção das mãos</h3><p>Luvas para manuseio, corte, abrasão e uso geral.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/maos.webp?v=4" alt="Luvas de proteção" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-hand cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=visual"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-glasses"></i></span><h3>Proteção visual</h3><p>Óculos de segurança com conforto para o dia inteiro.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/visual.webp?v=4" alt="Óculos de segurança" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-glasses cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=auditiva"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-headphones"></i></span><h3>Proteção auditiva</h3><p>Protetores auriculares para ambientes com ruído.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/auditiva.webp?v=4" alt="Abafador de ruído" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-headphones cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=vestimentas"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-vest"></i></span><h3>Vestimentas</h3><p>Uniformes e coletes com faixas refletivas de alta visibilidade.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/vestimentas.webp?v=4" alt="Colete refletivo" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-vest cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=altura"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-person-falling"></i></span><h3>Trabalho em altura</h3><p>Cinturões, talabartes e itens para atividades em altura.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/altura.webp?v=4" alt="Cinturão de segurança" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-person-falling cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=respiratoria"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-head-side-mask"></i></span><h3>Proteção respiratória</h3><p>Máscaras, filtros e cartuchos para ar limpo no trabalho.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/respiratoria.webp?v=4" alt="Máscara de proteção respiratória" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-head-side-mask cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=pes"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-shoe-prints"></i></span><h3>Proteção dos pés</h3><p>Botas, botinas e sapatos de segurança para cada terreno.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/pes.webp?v=4" alt="Botina de segurança" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-shoe-prints cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=pele"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-pump-soap"></i></span><h3>Proteção da pele</h3><p>Cremes, protetor solar e sabonetes para o dia a dia.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/pele.webp?v=4" alt="Creme e protetor solar" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-pump-soap cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=sinalizacao"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-triangle-exclamation"></i></span><h3>Sinalização</h3><p>Telas e tapumes para isolar e sinalizar áreas de risco.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/sinalizacao.webp?v=4" alt="Tela de sinalização" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-triangle-exclamation cat-fallback"></i></div></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer flush">
+    <div class="container">
+      <div class="sf-grid">
+        <div class="sf-brand">
+          <a href="index.html" aria-label="Apex Safety"><img src="logo-apex.png" alt="Apex Safety" width="144" height="48"></a>
+          <p>O ponto mais alto da segurança. Equipamentos de proteção individual para sua empresa.</p>
+          <div class="sf-social">
+            <a href="https://www.instagram.com/apexsafetyepi?utm_source=ig_web_button_share_sheet&cplk=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://api.whatsapp.com/send?phone=5519996952906" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Navegação</h4>
+          <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="produtos.html">Produtos</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="orcamento.html">Contato</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Categorias</h4>
+          <ul>
+            <li><a href="produtos.html?linha=cabeca">Cabeça</a></li>
+            <li><a href="produtos.html?linha=maos">Mãos</a></li>
+            <li><a href="produtos.html?linha=visual">Visual e facial</a></li>
+            <li><a href="produtos.html?linha=auditiva">Auditiva</a></li>
+            <li><a href="produtos.html?linha=vestimentas">Vestimentas</a></li>
+            <li><a class="sf-all" href="produtos.html">Ver todas <i class="fa-solid fa-arrow-right"></i></a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contato</h4>
+          <ul>
+            <li><a href="https://api.whatsapp.com/send?phone=5519996952906" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> (19) 99695-2906</a></li>
+            <li><a href="tel:+551933513933"><i class="fa-solid fa-phone"></i> (19) 3351-3933</a></li>
+            <li><a href="mailto:comercial@apexsafety.com.br"><i class="fa-regular fa-envelope"></i> comercial@apexsafety.com.br</a></li>
+            <li><i class="fa-solid fa-location-dot"></i> Rua dos Coroados, 131 – Campinho, Araras/SP</li>
+            <li><i class="fa-solid fa-location-dot"></i> Rua Anthero Paulo Pereira, 994 – Pires, Extrema/MG</li>
+          </ul>
+        </div>
+      </div>
+      <div class="sf-bottom"><span>© 2026 Apex Safety · Todos os direitos reservados</span><span>apexsafety.com.br</span></div>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,150 +1,207 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8">
-    <title>Apex Safety | Equipamentos de EPI</title>
-
-    <link rel="icon" type="image/png" sizes="48x48" href="icon-site.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="icon-site.png">
-    <link rel="apple-touch-icon" href="icon-site.png">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="http://apexsafety.com.br/">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Equipamentos de proteção individual certificados. Solicite orçamento com a Apex Safety.">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-  </head>
-
-  <body>
-    <section class="hero">
-      <div class="margin-bottom-logo">
-        <div class="logo-box">
-          <img src="logo-teste-2.png" alt="Logo da Apex Safety">
-        </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apex Safety | O ponto mais alto da segurança</title>
+  <meta name="description" content="EPIs de máxima segurança e qualidade, com atendimento consultivo. Solicite orçamento com a Apex Safety.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="http://apexsafety.com.br/">
+  <link rel="icon" type="image/png" href="icon-site.png?v=3">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preload" as="image" href="hero-worker.webp" type="image/webp" media="(min-width: 821px)">
+  <link rel="preload" as="image" href="hero-worker-mobile.webp" type="image/webp" media="(max-width: 820px)">
+  <script src="preloader.js"></script>
+</head>
+<body class="home">
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="brand" aria-label="Apex Safety"><img src="logo-apex.png" alt="Apex Safety" width="144" height="48"></a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" class="active">Início</a></li>
+        <li><a href="produtos.html">Produtos <i class="fa-solid fa-chevron-down" style="font-size:8px;margin-left:3px"></i></a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="orcamento.html">Contato</a></li>
+      </ul>
+      <div class="nav-right">
+        <a class="nav-phone" href="tel:+5519996952906"><i class="fa-solid fa-phone"></i> (19) 99695-2906</a>
+        <a class="nav-phone nav-mail" href="mailto:atendimento@apexsafety.com.br" aria-label="Enviar e-mail para atendimento@apexsafety.com.br"><i class="fa-regular fa-envelope"></i> atendimento@apexsafety.com.br</a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
       </div>
+    </div>
+  </header>
 
+  <main>
+    <section class="hero hero-home">
+      <div class="container hero-copy">
+        <h1>O ponto mais alto<br><span class="grad">da segurança.</span></h1>
+        <p class="lead">EPIs de máxima segurança e qualidade, com atendimento consultivo para conduzir pessoas e operações ao mais alto padrão de proteção.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary btn-lg btn-nav-cta btn-cta-lg" href="orcamento.html">Solicitar orçamento <i class="fa-solid fa-arrow-right"></i></a>
+          <a class="btn btn-outline-light btn-lg btn-nav-cta btn-cta-lg btn-cta-gray" href="produtos.html">Ver catálogo de EPIs <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <ul class="hero-feats">
+          <li><i class="fa-solid fa-truck"></i>Envio para todo o Brasil</li>
+          <li><i class="fa-regular fa-handshake"></i>Suporte especializado</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="container">
-        <h2 style="margin-top: -5px;">Segurança máxima para quem é o motor da produtividade</h2>
-        <p>EPI de alta qualidade para garantir segurança, produtividade e conformidade.</p>
-
-        <!-- <a href="https://api.whatsapp.com/send?phone=5519996952906" target="_blank" class="btn">
-          <i class="fa-brands fa-whatsapp"></i>
-          <p>Fale com nosso consultor</p>
-        </a> -->
-      </div>
-    </section>
-
-    <section class="container benefits">
-      <h2>Por que escolher a Apex Safety?</h2>
-
-      <div class="grid">
-        <div class="card">
-          <i style="margin-left: -3px;" class="fa-solid fa-shield-halved"></i>
-          <p>Produtos Certificados</p>
-        </div>
-        <div class="card">
-          <i style="margin-left: -7px;" class="fa-solid fa-users"></i>
-          <p>Atendimento Especializado</p>
-        </div>
-        <div class="card">
-          <i class="fa-solid fa-truck"></i>
-          <p>Entrega Ágil</p>
-        </div>
-        <div class="card">
-          <i class="fa-solid fa-building"></i>
-          <p>Atendemos empresas de todos os portes</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="container about-layout">
-      <div class="about-text">
-        <h2>Quem Somos</h2>
-        <p>
-          <strong>Apex Safety</strong> nasceu com o propósito de proteger o que há de mais importante
-          nas operações: as pessoas.
-        </p>
-
-        <p>
-          Trabalhamos com equipamentos de proteção individual certificados, oferecendo soluções que
-          garantem segurança, conformidade com as normas e aumento da produtividade no ambiente de trabalho.
-        </p>
-
-        <p>
-          Nosso compromisso é entregar qualidade, agilidade e atendimento especializado, ajudando empresas
-          de todos os portes a manterem seus colaboradores protegidos e suas operações seguras.
-        </p>
-      </div>
-
-      <div class="about-image">
-        <img src="equipe.jpg" alt="Equipe Apex Safety">
-      </div>
-    </section>
-
-    <section class="container benefits margin-bottom-products">
-      <h2 class="no-margin-bottom">Produtos vendidos</h2>
-
-      <div class="grid">
-        <div class="card-background" style="background-image: url('capacetes.jpg');">
-          <p>Capacetes</p>
-        </div>
-        <div class="card-background" style="background-image: url('oculos.jpg');">
-          <p>Óculos/Viseiras</p>
-        </div>
-        <div class="card-background" style="background-image: url('luvas.jpg');">
-          <p>Luvas</p>
-        </div>
-        <div class="card-background" style="background-image: url('botas.jpg');">
-          <p>Botas</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="cta">
-      <div class="container cta-layout">
-        <div class="contact">
-          <h2>Contato</h2>
-        
-          <!-- <div class="contact-item">
-            <i class="fa-solid fa-phone"></i>
-            <p style="margin-bottom: 16px;">(019) 99695-2906</p>
-          </div> -->
-          <div class="contact-item">
-            <i class="fa-solid fa-envelope"></i>
-            <p id="email-text" class="margin-bottom-mobile-text">atendimento@apexsafety.com.br</p>
-            <button class="copy-btn" onclick="copyEmail()" aria-label="Copiar email">
-              <i class="fa-regular fa-copy"></i>
-            </button>
-            <span id="copy-feedback" class="copy-feedback no-mobile">Copiado!</span>
+        <div class="sec-head">
+          <div>
+            <h2 class="title">Toda a segurança da sua equipe em um único lugar.</h2>
           </div>
-          <div class="contact-item">
-            <i class="fa-regular fa-clock"></i>
-            <p>Segunda à Sexta - 8h as 18h</p>
+          <a class="link-orange" href="produtos.html">Ver todos os produtos <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="cat-grid">
+          <a class="cat" href="produtos.html?linha=cabeca"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-helmet-safety"></i></span><h3>Proteção da cabeça</h3><p>Capacetes e acessórios para impacto e trabalho em campo.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/cabeca.webp?v=5" alt="Capacete de segurança" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-helmet-safety cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=maos"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-hand"></i></span><h3>Proteção das mãos</h3><p>Luvas para manuseio, corte, abrasão e uso geral.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/maos.webp?v=5" alt="Luvas de proteção" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-hand cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=visual"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-glasses"></i></span><h3>Proteção visual</h3><p>Óculos de segurança com conforto para o dia inteiro.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/visual.webp?v=5" alt="Óculos de segurança" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-glasses cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=auditiva"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-headphones"></i></span><h3>Proteção auditiva</h3><p>Protetores auriculares para ambientes com ruído.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/auditiva.webp?v=5" alt="Abafador de ruído" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-headphones cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=vestimentas"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-vest"></i></span><h3>Vestimentas</h3><p>Uniformes e coletes com faixas refletivas de alta visibilidade.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/vestimentas.webp?v=5" alt="Colete refletivo" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-vest cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=altura"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-person-falling"></i></span><h3>Trabalho em altura</h3><p>Cinturões, talabartes e itens para atividades em altura.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/altura.webp?v=5" alt="Cinturão de segurança" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-person-falling cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=respiratoria"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-head-side-mask"></i></span><h3>Proteção respiratória</h3><p>Máscaras, filtros e cartuchos para ar limpo no trabalho.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/respiratoria.webp?v=5" alt="Máscara de proteção respiratória" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-head-side-mask cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=pes"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-shoe-prints"></i></span><h3>Proteção dos pés</h3><p>Botas, botinas e sapatos de segurança para cada terreno.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/pes.webp?v=5" alt="Botina de segurança" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-shoe-prints cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=pele"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-pump-soap"></i></span><h3>Proteção da pele</h3><p>Cremes, protetor solar e sabonetes para o dia a dia.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/pele.webp?v=5" alt="Creme e protetor solar" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-pump-soap cat-fallback"></i></div></a>
+          <a class="cat" href="produtos.html?linha=sinalizacao"><div class="cat-text"><span class="ico-o"><i class="fa-solid fa-triangle-exclamation"></i></span><h3>Sinalização</h3><p>Telas e tapumes para isolar e sinalizar áreas de risco.</p><span class="cat-link">Ver linha <i class="fa-solid fa-arrow-right"></i></span></div><div class="cat-art"><img src="imagens/solucoes/sinalizacao.webp?v=5" alt="Tela de sinalização" width="300" height="225" loading="lazy" decoding="async"><i class="fa-solid fa-triangle-exclamation cat-fallback"></i></div></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-white essence-sec">
+      <div class="container essence">
+        <div class="essence-copy">
+          <span class="eyebrow">A essência</span>
+          <h2 class="title">Montanha. Pirâmide. <span class="accent">Ápice.</span></h2>
+          <div class="concept-list">
+            <div class="concept"><span class="concept-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 19 9 7.5l3.2 5.2 2-3 7.3 9.3z"/><path d="m7.6 10.2 1.4 1.3 1.5-1.2"/></svg></span><div><h3>A montanha simboliza desafio.</h3><p>Todo ambiente industrial possui riscos. Chegar ao topo exige preparo, método e responsabilidade.</p></div></div>
+            <div class="concept"><span class="concept-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5 21 19.5H3z"/><path d="M7.6 12h8.8M5.3 15.8h13.4"/></svg></span><div><h3>A pirâmide representa estrutura.</h3><p>Nenhuma operação segura acontece sem base sólida. Ela comunica estabilidade, planejamento e confiança.</p></div></div>
+            <div class="concept"><span class="concept-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4.5 20.5 19.5H3.5z"/><path d="M9.2 14.5 12 9.5l2.8 5"/></svg></span><div><h3>O formato triangular remete ao ápice.</h3><p>Representa evolução constante, excelência e conquista.</p></div></div>
           </div>
         </div>
-
-        <!-- <div class="map">
-          <iframe
-            class="map-container"
-            src="https://www.google.com/maps?q=Rua+Luiz+di+Cunto,+220,+Ponte+Nova,+Extrema,+MG,+37642-162&hl=pt-BR&z=16&output=embed"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
-          <p>
-            <i class="fa-solid fa-location-dot" style="margin-right: 3px;"></i>
-            Rua Luiz di Cunto, 220 - Doga Logistica, Ponte Nova, Extrema - MG, 37642-162
-          </p>
-        </div> -->
-      </div>
-
-      <div class="footer">
-        <p>Apex Safety | Equipamentos de EPI</p>
-        <p>Atendimento Comercial</p>
+        <div class="essence-art">
+          <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><clipPath id="apice-clip" clipPathUnits="objectBoundingBox"><path d="M0.4554 0.1305 Q0.5000 0.0400 0.5446 0.1305 L0.9014 0.8545 Q0.9460 0.9450 0.8568 0.9450 L0.1432 0.9450 Q0.0540 0.9450 0.0986 0.8545 Z"/></clipPath></defs></svg>
+          <img src="imagens/conceito-apice.webp" alt="Montanha ao nascer do sol, símbolo do ápice" width="1000" height="750" loading="lazy" decoding="async">
+        </div>
       </div>
     </section>
 
-    <script src="script.js"></script>
-  </body>
+    <section class="section section-social">
+      <div class="container">
+        <div class="social-head">
+          <div class="who">
+            <span class="avatar"><img src="icon-site.png" alt="Apex Safety"></span>
+            <div><h3>Acompanhe a Apex nas redes</h3><p>Dicas de segurança, lançamentos, bastidores e conteúdo técnico sobre proteção no trabalho.</p></div>
+          </div>
+          <a class="btn btn-dark btn-ig" href="https://www.instagram.com/apexsafetyepi?utm_source=ig_web_button_share_sheet&cplk=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener"><span class="ig-ico"><i class="fa-brands fa-instagram"></i></span><span class="ig-label">Seguir no Instagram</span><i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="sc" id="sc" aria-roledescription="carrossel" aria-label="Publicações da Apex">
+          <div class="sc-viewport">
+            <div class="sc-track">
+            <article class="sc-card">
+              <img src="capacetes.jpg" alt="" decoding="async" draggable="false">
+              <span class="sc-type"><i class="fa-solid fa-play"></i></span>
+              <div class="sc-text"><h4>Equipamento de qualidade Apex</h4></div>
+            </article>
+            <article class="sc-card">
+              <img src="luvas.jpg" alt="" decoding="async" draggable="false">
+              <span class="sc-type"><i class="fa-solid fa-image"></i></span>
+              <div class="sc-text"><h4>Luvas profissionais</h4></div>
+            </article>
+            <article class="sc-card">
+              <img src="oculos.jpg" alt="" decoding="async" draggable="false">
+              <span class="sc-type"><i class="fa-solid fa-film"></i></span>
+              <div class="sc-text"><h4>Proteção visual com conforto</h4></div>
+            </article>
+            <article class="sc-card">
+              <img src="botas.jpg" alt="" decoding="async" draggable="false">
+              <span class="sc-type"><i class="fa-solid fa-layer-group"></i></span>
+              <div class="sc-text"><h4>Botinas para qualquer terreno</h4></div>
+            </article>
+            <article class="sc-card">
+              <img src="equipe.jpg" alt="" loading="lazy" decoding="async" draggable="false">
+              <span class="sc-type"><i class="fa-solid fa-play"></i></span>
+              <div class="sc-text"><h4>Treinamento de segurança em campo</h4></div>
+            </article>
+            <article class="sc-card">
+              <img src="hero-worker.webp" alt="" loading="lazy" decoding="async" draggable="false">
+              <span class="sc-type"><i class="fa-solid fa-image"></i></span>
+              <div class="sc-text"><h4>Uniforme que protege e identifica</h4></div>
+            </article>
+            <article class="sc-card sc-cut">
+              <img src="imagens/solucoes/auditiva.webp?v=5" alt="" loading="lazy" decoding="async" draggable="false">
+              <span class="sc-type"><i class="fa-solid fa-film"></i></span>
+              <div class="sc-text"><h4>Cuidado com a audição da equipe</h4></div>
+            </article>
+            <article class="sc-card sc-cut">
+              <img src="imagens/solucoes/altura.webp?v=5" alt="" loading="lazy" decoding="async" draggable="false">
+              <span class="sc-type"><i class="fa-solid fa-layer-group"></i></span>
+              <div class="sc-text"><h4>Trabalho em altura com segurança</h4></div>
+            </article>
+            </div>
+          </div>
+          <div class="sc-dots" role="tablist" aria-label="Páginas do carrossel"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="sf-grid">
+        <div class="sf-brand">
+          <a href="index.html" aria-label="Apex Safety"><img src="logo-apex.png" alt="Apex Safety" width="144" height="48"></a>
+          <p>O ponto mais alto da segurança. Equipamentos de proteção individual para sua empresa.</p>
+          <div class="sf-social">
+            <a href="https://www.instagram.com/apexsafetyepi?utm_source=ig_web_button_share_sheet&cplk=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://api.whatsapp.com/send?phone=5519996952906" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Navegação</h4>
+          <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="produtos.html">Produtos</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="orcamento.html">Contato</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Categorias</h4>
+          <ul>
+            <li><a href="produtos.html?linha=cabeca">Cabeça</a></li>
+            <li><a href="produtos.html?linha=maos">Mãos</a></li>
+            <li><a href="produtos.html?linha=visual">Visual e facial</a></li>
+            <li><a href="produtos.html?linha=auditiva">Auditiva</a></li>
+            <li><a href="produtos.html?linha=vestimentas">Vestimentas</a></li>
+            <li><a class="sf-all" href="produtos.html">Ver todas <i class="fa-solid fa-arrow-right"></i></a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contato</h4>
+          <ul>
+            <li><a href="https://api.whatsapp.com/send?phone=5519996952906" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> (19) 99695-2906</a></li>
+            <li><a href="tel:+551933513933"><i class="fa-solid fa-phone"></i> (19) 3351-3933</a></li>
+            <li><a href="mailto:atendimento@apexsafety.com.br"><i class="fa-regular fa-envelope"></i> atendimento@apexsafety.com.br</a></li>
+            <li><i class="fa-solid fa-location-dot"></i> Rua dos Coroados, 131 – Campinho, Araras/SP</li>
+            <li><i class="fa-solid fa-location-dot"></i> Rua Anthero Paulo Pereira, 994 – Pires, Extrema/MG</li>
+          </ul>
+        </div>
+      </div>
+      <div class="sf-bottom"><span>© 2026 Apex Safety · Todos os direitos reservados</span><span>apexsafety.com.br</span></div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="social-carousel.js"></script>
+</body>
 </html>

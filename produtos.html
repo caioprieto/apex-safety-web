@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo de EPIs | Apex Safety</title>
+  <meta name="description" content="Catálogo de EPIs Apex Safety: cabeça, mãos, visual, auditiva, vestimentas, altura e pés.">
+  <link rel="icon" type="image/png" href="icon-site.png?v=3">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="preloader.js"></script>
+</head>
+<body class="home inner">
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="brand" aria-label="Apex Safety"><img src="logo-apex.png" alt="Apex Safety" width="144" height="48"></a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="produtos.html" class="active">Produtos</a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="orcamento.html">Contato</a></li>
+      </ul>
+      <div class="nav-right">
+        <a class="nav-phone" href="tel:+5519996952906"><i class="fa-solid fa-phone"></i> (19) 99695-2906</a>
+        <a class="nav-phone nav-mail" href="mailto:atendimento@apexsafety.com.br" aria-label="Enviar e-mail para atendimento@apexsafety.com.br"><i class="fa-regular fa-envelope"></i> atendimento@apexsafety.com.br</a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero hero-home hero-inner" style="--hero-img: url('imagens/hero/produtos.webp'), url('imagens/hero/produtos.jpg')">
+      <div class="container hero-copy">
+        <div class="crumbs"><a href="index.html">Início</a> / <b>Produtos</b></div>
+        <h1>Catálogo de <span class="grad">EPIs.</span></h1>
+        <p class="lead">Selecione a linha, escolha os itens e peça uma cotação para toda a sua equipe. Preços e condições sob consulta para empresas.</p>
+        <div class="hero-actions"><a class="btn btn-primary btn-lg btn-nav-cta btn-cta-lg" href="orcamento.html">Cotação para empresas <i class="fa-solid fa-arrow-right"></i></a></div>
+      </div>
+    </section>
+
+
+    <div class="container">
+      <div class="cat-toolbar">
+        <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input type="search" id="busca" placeholder="Buscar por nome, CA ou código" aria-label="Buscar produtos"></div>
+        <select id="marca" aria-label="Filtrar por marca"><option value="">Todas as marcas</option></select>
+      </div>
+      <div class="filters-row" style="margin-top:0">
+        <div class="chips" id="filters"></div>
+        <span class="count" id="count"></span>
+      </div>
+
+      <div class="prod-grid" id="grid"></div>
+      <p class="empty" id="empty" hidden>Nenhum produto encontrado. Tente outra busca ou <a href="orcamento.html" class="accent">fale com o comercial</a>.</p>
+    </div>
+
+    <section class="section" style="padding-bottom:0">
+      <div class="container">
+        <div class="cta-band row">
+          <h2>Monte o kit de EPIs da sua equipe com quem entende do assunto.</h2>
+          <div class="actions">
+            <a class="btn btn-dark btn-lg btn-nav-cta btn-cta-lg btn-cta-inv" href="orcamento.html">Montar meu kit <i class="fa-solid fa-arrow-right"></i></a>
+            <a class="btn btn-outline-orange btn-lg" href="https://api.whatsapp.com/send?phone=5519996952906" target="_blank" rel="noopener">Falar no WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="sf-grid">
+        <div class="sf-brand">
+          <a href="index.html" aria-label="Apex Safety"><img src="logo-apex.png" alt="Apex Safety" width="144" height="48"></a>
+          <p>O ponto mais alto da segurança. Equipamentos de proteção individual para sua empresa.</p>
+          <div class="sf-social">
+            <a href="https://www.instagram.com/apexsafetyepi?utm_source=ig_web_button_share_sheet&cplk=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="https://api.whatsapp.com/send?phone=5519996952906" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Navegação</h4>
+          <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="produtos.html">Produtos</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="orcamento.html">Contato</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Categorias</h4>
+          <ul>
+            <li><a href="produtos.html?linha=cabeca">Cabeça</a></li>
+            <li><a href="produtos.html?linha=maos">Mãos</a></li>
+            <li><a href="produtos.html?linha=visual">Visual e facial</a></li>
+            <li><a href="produtos.html?linha=auditiva">Auditiva</a></li>
+            <li><a href="produtos.html?linha=vestimentas">Vestimentas</a></li>
+            <li><a class="sf-all" href="produtos.html">Ver todas <i class="fa-solid fa-arrow-right"></i></a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contato</h4>
+          <ul>
+            <li><a href="https://api.whatsapp.com/send?phone=5519996952906" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> (19) 99695-2906</a></li>
+            <li><a href="tel:+551933513933"><i class="fa-solid fa-phone"></i> (19) 3351-3933</a></li>
+            <li><a href="mailto:atendimento@apexsafety.com.br"><i class="fa-regular fa-envelope"></i> atendimento@apexsafety.com.br</a></li>
+            <li><i class="fa-solid fa-location-dot"></i> Rua dos Coroados, 131 – Campinho, Araras/SP</li>
+            <li><i class="fa-solid fa-location-dot"></i> Rua Anthero Paulo Pereira, 994 – Pires, Extrema/MG</li>
+          </ul>
+        </div>
+      </div>
+      <div class="sf-bottom"><span>© 2026 Apex Safety · Todos os direitos reservados</span><span>apexsafety.com.br</span></div>
+    </div>
+  </footer>
+  <script src="catalogo.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

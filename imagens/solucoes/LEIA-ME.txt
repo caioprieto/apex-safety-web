@@ -1,0 +1,21 @@
+PASTA DAS IMAGENS DOS CARDS "NOSSAS SOLUÇÕES" (página inicial)
+
+Coloque aqui as 6 imagens, com EXATAMENTE estes nomes:
+
+  cabeca.webp        -> Proteção da cabeça   (capacete)
+  maos.webp          -> Proteção das mãos    (luvas)
+  visual.webp        -> Proteção visual      (óculos)
+  auditiva.webp      -> Proteção auditiva    (abafador)
+  vestimentas.webp   -> Vestimentas          (colete)
+  altura.webp        -> Trabalho em altura   (cinturão)
+
+Se não tiver WebP, pode usar .png (ex.: cabeca.png). O site tenta .webp, depois .png,
+e se não achar nenhum mostra o ícone antigo no lugar.
+
+RECOMENDAÇÕES PARA FICAR LEVE E BONITO
+- Formato: WebP (melhor), com FUNDO TRANSPARENTE (produto recortado), como no modelo.
+- Tamanho: 600 x 450 px (proporção 4:3). Não precisa ser maior: o card mostra ~200 px.
+- Peso: até ~40 KB por imagem. Para converter/comprimir grátis: https://squoosh.app
+  (escolha WebP, qualidade 75-80).
+- Produto centralizado, ocupando ~80% da altura, com um pouco de margem em volta.
+- Mantenha o mesmo ângulo e a mesma iluminação nas 6 para o conjunto ficar coeso.

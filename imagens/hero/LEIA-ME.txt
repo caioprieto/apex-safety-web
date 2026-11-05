@@ -1,0 +1,19 @@
+IMAGENS DE FUNDO DO HERO DE CADA PÁGINA
+
+Coloque aqui uma imagem para cada página, com estes nomes (.webp, ou .jpg se preferir):
+
+  produtos.webp    -> página Produtos (produtos.html)
+  produto.webp     -> página de detalhe do produto (produto.html)
+  sobre.webp       -> página Sobre (sobre.html)
+  orcamento.webp   -> página Orçamento (orcamento.html)
+
+Enquanto a imagem não existir, o hero aparece só com o fundo azul-escuro (sem erro).
+Para trocar a foto de uma página, basta substituir o arquivo mantendo o nome.
+Para mudar o nome/caminho de uma página, edite o atributo style="--hero-img: ..." da
+<section class="hero ..."> daquela página.
+
+RECOMENDAÇÕES
+- Foto horizontal, 1600 x 900 px, com o assunto principal do lado DIREITO
+  (o lado esquerdo é escurecido para o texto ficar legível).
+- WebP, qualidade 70-80, até ~150 KB. Dá para converter em https://squoosh.app
+- Evite fotos muito claras: o degradê escuro cobre só a metade esquerda.

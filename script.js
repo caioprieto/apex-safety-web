@@ -403,3 +403,183 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+/* Hero da home: carrossel controlável (arrastar, deslizar de lado, setas, barras) com texto trocado via GSAP.
+   O texto de cada slide vem dos atributos data-* de .hero-slide no index.html. */
+(() => {
+  const section = document.querySelector(".hero-home.has-slides");
+  if (!section) return;
+  const slides = Array.from(section.querySelectorAll(".hero-slide"));
+  if (slides.length < 2) return;
+  const h1 = section.querySelector(".hero-copy h1"), lead = section.querySelector(".hero-copy .lead");
+  const bars = Array.from(section.querySelectorAll(".hero-bar"));
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const HOLD = 7, FADE = 0.9;
+  const mobile = window.matchMedia("(max-width: 820px)");
+  const SHIFT = () => mobile.matches ? 7 : 3.5;        /* % deslocado na troca (menor que o excesso do slide) */
+  const OVERSCAN = () => window.innerWidth * (mobile.matches ? .1 : .03); /* px que o slide excede a tela */
+  let cur = 0, busy = false, call = null, G = null, dragging = null, wheelLock = 0, manual = false;
+
+  const lazy = () => slides.forEach(s => { const i = s.querySelector("img[data-src]"); if (i) { i.src = i.dataset.src; i.removeAttribute("data-src"); } });
+  const textHTML = i => { const d = slides[i].dataset; return { h1: `<span class="hl">${esc(d.h1)}</span><br><span class="hl grad">${esc(d.grad)}</span>`, lead: d.lead }; };
+  const progress = () => {
+    bars.forEach((b, i) => { const f = b.firstElementChild; b.classList.toggle("on", i === cur); b.setAttribute("aria-current", i === cur ? "true" : "false"); if (G && i !== cur) G.set(f, { scaleX: 0 }); else if (G && manual) G.set(f, { scaleX: 1 }); });
+  };
+  /* Assim que o usuário interage, o autoplay para de vez (só volta ao recarregar a página) */
+  const takeControl = () => {
+    if (manual) return;
+    manual = true;
+    if (call) { call.kill(); call = null; }
+    if (G && bars[cur]) G.set(bars[cur].firstElementChild, { scaleX: 1, overwrite: true });
+  };
+  const autoplay = () => {
+    if (call) call.kill();
+    if (manual || !G || reduced) return;
+    const fill = bars[cur] && bars[cur].firstElementChild;
+    if (fill) G.fromTo(fill, { scaleX: 0 }, { scaleX: 1, duration: HOLD, ease: "none", overwrite: true });
+    call = G.delayedCall(HOLD, () => go(1, null, true));
+  };
+  const drift = el => G.fromTo(el.querySelector("img"), { scale: 1.08 }, { scale: 1, duration: HOLD + FADE + 2, ease: "none", overwrite: "auto" });
+
+  const swapText = (to, dir) => {
+    const t = textHTML(to), out = [...h1.querySelectorAll(".hl"), lead];
+    G.to(out, { opacity: 0, x: -28 * dir, duration: .28, ease: "power2.in", stagger: .04, overwrite: true, onComplete: () => {
+      h1.innerHTML = t.h1; lead.textContent = t.lead;
+      G.fromTo([...h1.querySelectorAll(".hl"), lead], { opacity: 0, x: 34 * dir }, { opacity: 1, x: 0, duration: .6, ease: "power3.out", stagger: .09, clearProps: "transform" });
+    } });
+  };
+
+  /* Conclui na hora qualquer transição em andamento, para o usuário poder interagir a qualquer momento */
+  const finish = () => {
+    if (!busy) return;
+    G.killTweensOf(slides); G.killTweensOf([...h1.querySelectorAll(".hl"), lead]);
+    slides.forEach((s, i) => G.set(s, i === cur ? { x: 0, xPercent: 0, autoAlpha: 1, zIndex: 2 } : { x: 0, xPercent: 0, autoAlpha: 0, zIndex: 1 }));
+    const t = textHTML(cur); h1.innerHTML = t.h1; lead.textContent = t.lead;
+    G.set([...h1.querySelectorAll(".hl"), lead], { opacity: 1, x: 0 });
+    busy = false;
+  };
+  function go(dir, target, auto) {
+    if (!G) return;
+    finish();
+    if (!auto) takeControl();
+    const to = target != null ? target : (cur + dir + slides.length) % slides.length;
+    if (to === cur) { settle(); return; }
+    if (target != null) dir = to > cur ? 1 : -1;
+    const out = slides[cur], inn = slides[to], img = inn.querySelector("img");
+    const run = () => {
+      busy = true; cur = to; progress();
+      G.set(inn, { zIndex: 2, x: 0, xPercent: SHIFT() * dir, autoAlpha: 0 }); G.set(out, { zIndex: 1 });
+      drift(inn);
+      G.to(inn, { xPercent: 0, autoAlpha: 1, duration: FADE + .3, ease: "power3.out" });
+      G.to(out, { xPercent: -SHIFT() * dir, x: 0, autoAlpha: 0, duration: FADE, ease: "power2.inOut", onComplete: () => { busy = false; G.set(out, { xPercent: 0, x: 0 }); } });
+      swapText(to, dir);
+      autoplay();
+    };
+    if (img.complete && img.naturalWidth) run(); else { img.addEventListener("load", run, { once: true }); img.addEventListener("error", autoplay, { once: true }); }
+  }
+  const settle = () => { G.to(slides[cur], { x: 0, autoAlpha: 1, duration: .45, ease: "power3.out" }); autoplay(); };
+
+  /* Arrastar com mouse/toque; rolagem lateral do trackpad; setas do teclado */
+  const onDown = e => {
+    if ((e.pointerType === "mouse" && e.button !== 0) || e.target.closest("a, button, input")) return;
+    finish(); takeControl();
+    dragging = { x: e.clientX, y: e.clientY, dx: 0, active: false, id: e.pointerId };
+  };
+  const onMove = e => {
+    if (!dragging || e.pointerId !== dragging.id) return;
+    const dx = e.clientX - dragging.x, dy = e.clientY - dragging.y;
+    if (!dragging.active) {
+      if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy)) return;
+      dragging.active = true; section.classList.add("is-dragging");
+      try { section.setPointerCapture(e.pointerId); } catch (_) {}
+    }
+    dragging.dx = dx;
+    const o = OVERSCAN();
+    G.set(slides[cur], { x: o * Math.tanh(dx * .55 / o), autoAlpha: 1 - Math.min(.5, Math.abs(dx) / section.clientWidth) });
+  };
+  const onUp = e => {
+    if (!dragging || e.pointerId !== dragging.id) return;
+    const { dx, active } = dragging; dragging = null;
+    section.classList.remove("is-dragging");
+    if (!active) return;
+    if (Math.abs(dx) > Math.min(90, section.clientWidth * .15)) go(dx < 0 ? 1 : -1); else settle();
+  };
+  const onWheel = e => {
+    if (Math.abs(e.deltaX) < Math.abs(e.deltaY) || Math.abs(e.deltaX) < 12) return;
+    e.preventDefault();
+    const now = performance.now();
+    if (now < wheelLock) return;
+    wheelLock = now + 900;
+    go(e.deltaX > 0 ? 1 : -1);
+  };
+
+  const start = () => {
+    lazy();
+    window.gsapReady().then(g => {
+      if (!g) return;
+      G = g;
+      G.set(slides, { autoAlpha: 0 }); G.set(slides[0], { autoAlpha: 1, zIndex: 2 });
+      if (!reduced) drift(slides[0]);
+      section.classList.add("is-interactive");
+      progress(); autoplay();
+      section.addEventListener("pointerdown", onDown);
+      section.addEventListener("pointermove", onMove);
+      section.addEventListener("pointerup", onUp);
+      section.addEventListener("pointercancel", onUp);
+      section.addEventListener("selectstart", e => { if (dragging) e.preventDefault(); });
+      section.addEventListener("dragstart", e => e.preventDefault());
+      section.addEventListener("wheel", onWheel, { passive: false });
+      section.addEventListener("keydown", e => { if (e.key === "ArrowRight") go(1); else if (e.key === "ArrowLeft") go(-1); });
+      bars.forEach((b, i) => b.addEventListener("click", () => go(0, i)));
+      const prev = section.querySelector(".hero-prev"), nxt = section.querySelector(".hero-next");
+      if (prev) prev.addEventListener("click", () => go(-1));
+      if (nxt) nxt.addEventListener("click", () => go(1));
+      document.addEventListener("visibilitychange", () => { if (call) call.paused(document.hidden); });
+    });
+  };
+  if (document.readyState === "complete") start(); else window.addEventListener("load", start, { once: true });
+})();
+
+/* Select customizado genérico (mesmo visual do filtro de marcas): use <select data-dd> */
+(() => {
+  document.querySelectorAll("select[data-dd]").forEach((sel, n) => {
+    const opts = Array.from(sel.options);
+    const wrap = document.createElement("div");
+    wrap.className = "dd-select";
+    const id = "dd-list-" + n, labelEl = sel.id ? document.querySelector(`label[for="${sel.id}"]`) : null;
+    wrap.innerHTML = `<button type="button" class="dds-btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="${id}"><span class="dds-label"></span><i class="fa-solid fa-chevron-down dds-chev" aria-hidden="true"></i></button>
+      <ul class="dds-list" id="${id}" role="listbox" hidden>${opts.map((o, i) => `<li role="option" data-i="${i}" tabindex="-1"><span></span><i class="fa-solid fa-check" aria-hidden="true"></i></li>`).join("")}</ul>`;
+    const btn = wrap.querySelector(".dds-btn"), list = wrap.querySelector(".dds-list"), label = wrap.querySelector(".dds-label"), items = Array.from(list.querySelectorAll("li"));
+    items.forEach((li, i) => { li.firstElementChild.textContent = opts[i].textContent; });
+    if (labelEl) { btn.setAttribute("aria-labelledby", labelEl.id || (labelEl.id = id + "-lbl")); list.setAttribute("aria-labelledby", labelEl.id); labelEl.addEventListener("click", e => { e.preventDefault(); btn.focus(); }); }
+    sel.classList.add("sr-only-select"); sel.tabIndex = -1; sel.setAttribute("aria-hidden", "true");
+    sel.insertAdjacentElement("afterend", wrap);
+    const sync = () => {
+      label.textContent = sel.options[sel.selectedIndex].textContent;
+      wrap.classList.toggle("has-value", !!sel.value);
+      items.forEach((li, i) => { const on = i === sel.selectedIndex; li.classList.toggle("on", on); li.setAttribute("aria-selected", on); });
+    };
+    const open = v => {
+      list.hidden = !v; wrap.classList.toggle("open", v); btn.setAttribute("aria-expanded", v);
+      if (v) { const on = list.querySelector("li.on"); if (on) list.scrollTop = on.offsetTop - list.clientHeight / 2 + on.clientHeight / 2; }
+    };
+    btn.addEventListener("click", () => open(list.hidden));
+    list.addEventListener("click", e => {
+      const li = e.target.closest("li"); if (!li) return;
+      sel.selectedIndex = +li.dataset.i; sel.dispatchEvent(new Event("change")); sync(); open(false); btn.focus();
+    });
+    document.addEventListener("click", e => { if (!wrap.contains(e.target)) open(false); });
+    wrap.addEventListener("keydown", e => {
+      if (e.key === "Escape") { open(false); btn.focus(); }
+      else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault(); if (list.hidden) open(true);
+        const cur = items.indexOf(document.activeElement);
+        const nxt = e.key === "ArrowDown" ? Math.min(cur + 1, items.length - 1) : Math.max(cur - 1, 0);
+        items[cur < 0 ? Math.max(sel.selectedIndex, 0) : nxt].focus();
+      } else if ((e.key === "Enter" || e.key === " ") && document.activeElement.matches("li")) { e.preventDefault(); document.activeElement.click(); }
+    });
+    sel.addEventListener("change", sync);
+    sync();
+  });
+})();

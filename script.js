@@ -1,3 +1,29 @@
+/* Carrega o GSAP uma única vez e devolve uma Promise (null se falhar). */
+window.gsapReady = () => window.__gsapP || (window.__gsapP = new Promise(resolve => {
+  if (window.gsap) return resolve(window.gsap);
+  const g = document.createElement("script");
+  g.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js";
+  g.onload = () => resolve(window.gsap);
+  g.onerror = () => resolve(null);
+  document.head.appendChild(g);
+}));
+
+/* Ajusta os codigos para caberem inteiros em uma linha. */
+window.fitProductCodes = (root) => {
+  const codes = Array.from(root.querySelectorAll('.ids .ca'));
+  const context = document.createElement('canvas').getContext('2d');
+  const fit = (code) => {
+    if (!code.clientWidth) return;
+    const style = getComputedStyle(code);
+    context.font = style.fontWeight + ' 10px ' + style.fontFamily;
+    const width = context.measureText(code.textContent).width;
+    code.style.fontSize = Math.min(10, Math.floor((code.clientWidth - 1) / width * 100) / 10) + 'px';
+  };
+  const observer = new ResizeObserver(entries => entries.forEach(({target}) => fit(target)));
+  codes.forEach(code => observer.observe(code));
+  if (document.fonts) document.fonts.ready.then(() => codes.forEach(fit));
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -106,8 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
         G.set([dd, chev, items(), $(".dd-all", dd)], { clearProps: "all" });
       });
     };
-    if (window.gsap) initDD();
-    else { const g = document.createElement("script"); g.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"; g.onload = initDD; document.head.appendChild(g); }
+    window.gsapReady().then(initDD);
     prodLink.addEventListener("click", (e) => {
       if (window.matchMedia("(max-width: 820px)").matches) { e.preventDefault(); li.classList.toggle("open"); }
     });
@@ -131,48 +156,152 @@ document.addEventListener("DOMContentLoaded", () => {
       Object.keys(cats).filter(k => contagem[k]).map(k => mkChip(k, `${cats[k][0]} (${contagem[k]})`)).join("");
     [...new Set(dados.map(d => d.marca))].forEach(m => selMarca.insertAdjacentHTML("beforeend", `<option>${esc(m)}</option>`));
 
-    grid.innerHTML = dados.map((d) => {
+    grid.innerHTML = dados.map((d, index) => {
       const c = cats[d.cat];
       const msg = `Olá! Gostaria de cotar: ${d.nome} (${d.marca}${d.ca ? ", " + d.ca : ""}, cód. ${d.cod}).`;
       const linha = linhasForm.includes(d.cat) ? d.cat : "";
       return `<article class="prod">
-        <div class="prod-img"><span class="prod-tag">${esc(c[0])}</span><div class="ph"><i class="fa-solid ${c[1]}"></i>${esc(d.marca)}</div></div>
-        <div class="prod-body"><span class="brand-tag">${esc(d.marca)}</span><h3>${esc(d.nome)}</h3>
+        <a class="prod-img" href="produto.html?id=${index}" aria-label="Ver ${esc(d.nome)}"><span class="prod-tag">${esc(c[0])}</span><img src="${d.foto}" alt="${esc(d.nome)}" width="480" height="400" loading="lazy" decoding="async"></a>
+        <div class="prod-body"><span class="product-brand-logo"><img src="${window.MARCAS[d.marca]}" alt="${esc(d.marca)}" width="110" height="43" loading="lazy" decoding="async"></span><h3><a href="produto.html?id=${index}">${esc(d.nome)}</a></h3>
           <div class="ids">${d.ca ? `<span class="ca-badge">${esc(d.ca)}</span>` : ""}<span class="ca">${esc(d.cod)}</span></div>
-          <div class="prod-foot"><a class="btn btn-primary btn-sm" href="orcamento.html?linha=${linha}&msg=${encodeURIComponent(msg)}">Cotar</a></div></div>
+          <div class="prod-foot"><a class="more" href="produto.html?id=${index}">Ver detalhes <i class="fa-solid fa-arrow-right"></i></a><a class="btn btn-primary btn-sm btn-nav-cta btn-card-quote" href="orcamento.html?linha=${linha}&msg=${encodeURIComponent(msg)}">Cotar <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></div></div>
       </article>`;
     }).join("");
     const cards = $$(".prod", grid);
+    window.fitProductCodes(grid);
     const textos = dados.map(d => norm(`${d.nome} ${d.ca} ${d.cod} ${d.marca}`));
 
-    const aplicar = () => {
+    const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const results = grid.parentElement;
+    results.classList.add("catalog-results");
+
+    /* Estado vazio */
+    empty.className = "empty-state";
+    empty.innerHTML = '<div class="empty-ico"><i class="fa-solid fa-magnifying-glass"></i></div>' +
+      '<h3>Nenhum produto encontrado</h3>' +
+      '<p class="empty-msg"></p>' +
+      '<div class="empty-actions"><button type="button" class="btn btn-primary btn-nav-cta empty-clear">Limpar filtros <i class="fa-solid fa-rotate-left" aria-hidden="true"></i></button>' +
+      '<a href="orcamento.html" class="empty-link">Falar com o comercial <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></div>';
+    const emptyMsg = $(".empty-msg", empty);
+
+    /* Loader com a marca da Apex girando (GSAP) */
+    const loader = document.createElement("div");
+    loader.className = "cat-loader";
+    loader.hidden = true;
+    loader.setAttribute("role", "status");
+    loader.innerHTML = '<div class="cat-loader-box"><span class="cat-loader-ring"></span><img src="logo-apex-mark.png" alt="" width="52" height="47"><span class="sr-only">Carregando produtos</span></div>';
+    results.appendChild(loader);
+    const mark = $("img", loader), ring = $(".cat-loader-ring", loader);
+    let spin = null, shownAt = 0, hideTimer = 0;
+    const showLoader = () => {
+      clearTimeout(hideTimer);
+      if (!loader.hidden) return;
+      shownAt = performance.now();
+      loader.hidden = false;
+      results.setAttribute("aria-busy", "true");
+      window.gsapReady().then(G => {
+        if (!G || loader.hidden) return;
+        if (spin) spin.kill();
+        spin = G.timeline({ repeat: -1 });
+        spin.fromTo(ring, { rotation: 0 }, { rotation: 360, duration: 1.1, ease: "none" }, 0)
+          .fromTo(mark, { rotation: 0, scale: .92 }, { rotation: 360, scale: 1, duration: 1.1, ease: "power2.inOut" }, 0);
+        G.fromTo(loader, { opacity: 0 }, { opacity: 1, duration: .18, overwrite: true });
+      });
+    };
+    const hideLoader = (min = 420) => {
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => {
+        const done = () => { loader.hidden = true; results.removeAttribute("aria-busy"); if (spin) { spin.kill(); spin = null; } };
+        if (window.gsap && !reduced()) window.gsap.to(loader, { opacity: 0, duration: .22, onComplete: done });
+        else done();
+      }, Math.max(0, min - (performance.now() - shownAt)));
+    };
+
+    const filtrar = (scroll = false) => {
       const q = norm(busca.value.trim()), m = selMarca.value;
       let n = 0;
+      const porCat = { todos: 0 };
       cards.forEach((el, i) => {
         const d = dados[i];
-        const ok = (catAtual === "todos" || d.cat === catAtual) && (!m || d.marca === m) && (!q || textos[i].includes(q));
+        const base = (!m || d.marca === m) && (!q || textos[i].includes(q));
+        if (base) { porCat.todos++; porCat[d.cat] = (porCat[d.cat] || 0) + 1; }
+        const ok = base && (catAtual === "todos" || d.cat === catAtual);
         el.hidden = !ok;
         if (ok) n++;
       });
-      $$(".chip", filtros).forEach(c => c.classList.toggle("on", c.dataset.f === catAtual));
+      /* Contadores das categorias acompanham busca e marca */
+      $$(".chip", filtros).forEach(c => {
+        const k = c.dataset.f, total = porCat[k] || 0;
+        const nome = k === "todos" ? "Todos" : cats[k][0];
+        const txt = `${nome} (${total})`;
+        if (c.textContent !== txt) c.textContent = txt;
+        c.classList.toggle("is-zero", total === 0);
+      });
+      $$(".chip", filtros).forEach(c => (c.classList.toggle("on", c.dataset.f === catAtual), c.setAttribute("aria-pressed", String(c.dataset.f === catAtual))));
       count.textContent = n + (n === 1 ? " produto encontrado" : " produtos encontrados");
+      const wasHidden = empty.hidden;
       empty.hidden = n > 0;
+      if (n === 0) {
+        const partes = [];
+        if (q) partes.push(`a busca “${busca.value.trim()}”`);
+        if (catAtual !== "todos") partes.push(`a categoria ${cats[catAtual][0]}`);
+        if (m) partes.push(`a marca ${m}`);
+        emptyMsg.textContent = partes.length
+          ? `Não há itens que combinem com ${partes.join(", ").replace(/, ([^,]*)$/, " e $1")}. Tente remover algum filtro ou fale com nossa equipe.`
+          : "Não encontramos itens no catálogo. Fale com nossa equipe.";
+        if (wasHidden && window.gsap && !reduced()) {
+          window.gsap.fromTo(empty, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", clearProps: "transform" });
+          window.gsap.fromTo($$(".empty-ico, h3, .empty-msg, .empty-actions", empty), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .4, stagger: .06, delay: .05, ease: "power2.out" });
+        }
+        /* Sem resultado: leva a tela até o aviso com o contato do comercial */
+        if (scroll) requestAnimationFrame(() => {
+          const r = empty.getBoundingClientRect(), vh = window.innerHeight;
+          if (r.top < 80 || r.bottom > vh - 16) empty.scrollIntoView({ block: r.height > vh - 160 ? "start" : "center", behavior: reduced() ? "auto" : "smooth" });
+        });
+      }
     };
-    filtros.addEventListener("click", (e) => { const b = e.target.closest(".chip"); if (b) { catAtual = b.dataset.f; aplicar(); } });
-    selMarca.addEventListener("change", aplicar);
+    let pending = 0;
+    const aplicar = (delay = 0) => {
+      clearTimeout(pending);
+      showLoader();
+      pending = setTimeout(() => { filtrar(true); hideLoader(); }, delay);
+    };
+    $(".empty-clear", empty).addEventListener("click", () => {
+      busca.value = ""; catAtual = "todos"; selMarca.selectedIndex = 0;
+      selMarca.dispatchEvent(new Event("change")); // atualiza o dropdown e reaplica os filtros
+      revealCategory(filtros.querySelector('[data-f="todos"]'));
+    });
+    const revealCategory = (button, smooth = true) => {
+      if (!button) return;
+      const left = button.offsetLeft - filtros.offsetLeft - (filtros.clientWidth - button.offsetWidth) / 2;
+      filtros.scrollTo({ left, behavior: smooth && !window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'smooth' : 'instant' });
+    };
+    filtros.addEventListener("click", (e) => {
+      const b = e.target.closest(".chip");
+      if (b && b.dataset.f !== catAtual) { catAtual = b.dataset.f; aplicar(); }
+      if (b) revealCategory(b);
+    });
+    filtros.addEventListener('focusin', e => {
+      if (e.target.matches('.chip')) revealCategory(e.target);
+    });
+    requestAnimationFrame(() => revealCategory(filtros.querySelector('.chip.on'), false));
+    selMarca.addEventListener("change", () => aplicar());
 
     /* Dropdown customizado de marcas (o select original continua como fonte do valor) */
     (() => {
       const opts = Array.from(selMarca.options);
       const wrap = document.createElement("div");
-      wrap.className = "dd-select";
-      wrap.innerHTML = `<button type="button" class="dds-btn" aria-haspopup="listbox" aria-expanded="false"><i class="fa-solid fa-tag dds-ico"></i><span class="dds-label"></span><i class="fa-solid fa-chevron-down dds-chev"></i></button>
-        <ul class="dds-list" role="listbox" hidden>${opts.map((o, i) => `<li role="option" data-i="${i}" tabindex="-1">${esc(o.textContent)}<i class="fa-solid fa-check"></i></li>`).join("")}</ul>`;
+      wrap.className = "dd-select brand-select";
+      const brandOption = (o) => o.value
+        ? '<span class="brand-option-logo"><img src="' + window.MARCAS[o.value] + '" alt="" width="88" height="34"></span><span class="brand-option-copy"><b>' + esc(o.textContent) + '</b><small>' + dados.filter(d => d.marca === o.value).length + ' produtos</small></span>'
+        : '<span class="brand-option-all" aria-hidden="true"><i class="fa-solid fa-layer-group"></i></span><span class="brand-option-copy"><b>Todas as marcas</b><small>Explore todas as fabricantes</small></span>';
+      wrap.innerHTML = `<button type="button" class="dds-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Filtrar produtos por marca" aria-controls="brand-options"><span class="dds-label"></span><i class="fa-solid fa-chevron-down dds-chev"></i></button>
+        <ul class="dds-list" id="brand-options" role="listbox" aria-label="Marcas de EPI" hidden>${opts.map((o, i) => `<li role="option" data-i="${i}" tabindex="-1">${brandOption(o)}<i class="fa-solid fa-check" aria-hidden="true"></i></li>`).join("")}</ul>`;
       selMarca.classList.add("sr-only-select");
       selMarca.insertAdjacentElement("afterend", wrap);
       const btn = $(".dds-btn", wrap), list = $(".dds-list", wrap), label = $(".dds-label", wrap), items = $$("li", list);
       const sync = () => {
-        label.textContent = selMarca.options[selMarca.selectedIndex].textContent;
+        label.innerHTML = brandOption(selMarca.options[selMarca.selectedIndex]);
         wrap.classList.toggle("has-value", !!selMarca.value);
         items.forEach((li, i) => { const on = i === selMarca.selectedIndex; li.classList.toggle("on", on); li.setAttribute("aria-selected", on); });
       };
@@ -200,39 +329,8 @@ document.addEventListener("DOMContentLoaded", () => {
       selMarca.addEventListener("change", sync);
       sync();
     })();
-    busca.addEventListener("input", aplicar);
-    aplicar();
-  }
-
-  /* Página do produto */
-  const qty = $("#qty");
-  if (qty) {
-    const label = $("#qty-label");
-    const sizeLabel = $("#size-label");
-    const update = () => {
-      let v = Math.max(1, parseInt(qty.value, 10) || 1);
-      qty.value = v;
-      label.textContent = v;
-      const size = $(".size.on").textContent;
-      const msg = `Olá! Gostaria de um orçamento de ${v} pares da Luva de proteção Apex, tamanho ${size}.`;
-      $("#wa-btn").href = `https://api.whatsapp.com/send?phone=${WA}&text=${encodeURIComponent(msg)}`;
-      $("#quote-btn").href = `orcamento.html?linha=maos&msg=${encodeURIComponent(msg)}`;
-    };
-    $("#qty-minus").addEventListener("click", () => { qty.value = (parseInt(qty.value, 10) || 1) - 1; update(); });
-    $("#qty-plus").addEventListener("click", () => { qty.value = (parseInt(qty.value, 10) || 0) + 1; update(); });
-    qty.addEventListener("input", update);
-    $$(".size").forEach(b => b.addEventListener("click", () => {
-      $$(".size").forEach(x => x.classList.remove("on"));
-      b.classList.add("on");
-      sizeLabel.textContent = b.textContent;
-      update();
-    }));
-    $$(".thumb").forEach(t => t.addEventListener("click", () => {
-      $$(".thumb").forEach(x => x.classList.remove("on"));
-      t.classList.add("on");
-      $("#main-img").src = t.dataset.src;
-    }));
-    update();
+    busca.addEventListener("input", () => aplicar(260));
+    filtrar();
   }
 
   /* Formulário de orçamento */
@@ -249,16 +347,38 @@ document.addEventListener("DOMContentLoaded", () => {
     if (pre) { const c = chips.find(x => x.dataset.l === pre); if (c) c.click(); }
     if (params.get("msg")) $("#msg").value = params.get("msg");
 
+    const maskTel = v => {
+      const d = v.replace(/\D/g, "").slice(0, 11);
+      if (d.length <= 2) return d.length ? "(" + d : "";
+      if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+      if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+      return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+    };
+    const maskCnpj = v => {
+      const d = v.replace(/\D/g, "").slice(0, 14);
+      return d.replace(/^(\d{2})(\d)/, "$1.$2").replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+        .replace(/\.(\d{3})(\d)/, ".$1/$2").replace(/(\d{4})(\d)/, "$1-$2");
+    };
+    const telEl = $("#tel"), cnpjEl = $("#cnpj");
+    if (telEl) { telEl.maxLength = 15; telEl.addEventListener("input", () => { telEl.value = maskTel(telEl.value); }); }
+    if (cnpjEl) { cnpjEl.maxLength = 18; cnpjEl.addEventListener("input", () => { cnpjEl.value = maskCnpj(cnpjEl.value); }); }
+
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       const ok = $("#form-ok");
       const required = $$("[required]", form);
       let valid = true;
       required.forEach(f => {
-        const bad = !f.value.trim() || (f.type === "email" && !/^\S+@\S+\.\S+$/.test(f.value));
+        let bad = !f.value.trim() || (f.type === "email" && !/^\S+@\S+\.\S+$/.test(f.value));
+        if (f === telEl && !bad) bad = !/^\d{10,11}$/.test(f.value.replace(/\D/g, ""));
         f.style.borderColor = bad ? "#d64545" : "";
         if (bad) valid = false;
       });
+      if (cnpjEl) {
+        const badCnpj = cnpjEl.value.trim() && cnpjEl.value.replace(/\D/g, "").length !== 14;
+        cnpjEl.style.borderColor = badCnpj ? "#d64545" : "";
+        if (badCnpj) valid = false;
+      }
       if (!valid) {
         ok.style.background = "#fdeaea"; ok.style.color = "#a12626";
         ok.textContent = "Preencha os campos obrigatórios (*) corretamente.";

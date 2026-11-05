@@ -1,0 +1,31 @@
+﻿import fs from 'node:fs';
+import {createCanvas,loadImage} from '../.tools/node_modules/@napi-rs/canvas/index.js';
+const out='imagens/produtos';fs.mkdirSync(out,{recursive:true});
+const boxes=[];
+const grid=(page,count,cols=3,rows=[[270,530],[590,825],[890,1135],[1195,1440]],xs=null)=>{for(let i=0;i<count;i++){let col=i%cols,row=Math.floor(i/cols);let x=xs?xs[col]:(cols===3?[60,445,820][col]:60+col*(1120/cols));let w=xs?(cols===2?500:350):(cols===3?355:1120/cols);boxes.push({page,x,y:rows[row][0],w,h:rows[row][1]-rows[row][0]});}};
+for(let p=3;p<=8;p++)grid(p,p===4||p===5?11:12);
+grid(9,12);boxes.push({page:9,x:755,y:1505,w:270,h:225});
+grid(10,12);
+grid(11,4,2,[[280,640],[755,1115]]);grid(11,3,3,[[1280,1515]]);
+grid(12,9,3,[[320,590],[660,955],[1030,1305]]);
+grid(13,9,3,[[350,620],[680,935],[1005,1270]]);
+grid(14,7,3,[[305,565],[650,900],[960,1195]]);
+grid(15,4,2,[[370,685],[920,1270]]);
+grid(16,6,2,[[285,600],[700,1030],[1130,1440]]);
+grid(17,4,2,[[380,670],[965,1250]]);
+grid(18,12,3,[[310,520],[625,835],[945,1120],[1240,1435]]);
+grid(19,10);grid(20,9,3,[[315,535],[655,855],[1000,1205]]);
+grid(21,12);
+// Mondial: the first column contains brand logos on the first two rows.
+for(let r=0;r<2;r++)for(let c=1;c<3;c++)boxes.push({page:22,x:60+c*1120/3,y:r?625:305,w:1120/3,h:r?240:265});
+grid(22,6,3,[[925,1170],[1260,1515]]);
+grid(23,3,2,[[415,720],[1010,1330]]);
+grid(24,12,3,[[280,540],[650,895],[1000,1220],[1320,1530]]);grid(25,8,3,[[370,605],[720,930],[1050,1255]]);
+grid(26,12);grid(27,3,3,[[290,585]]);grid(27,2,2,[[675,965]]);
+for(let p=28;p<=31;p++)grid(p,12);
+if(boxes.length!==282)throw Error('Unexpected count '+boxes.length);
+const pages={};const manifest=[];
+for(let i=0;i<boxes.length;i++){const b=boxes[i];pages[b.page]??=await loadImage(`.tools/pages/${b.page}.png`);const c=createCanvas(600,480);const ctx=c.getContext('2d');ctx.fillStyle='white';ctx.fillRect(0,0,600,480);const scale=Math.min(560/b.w,440/b.h);ctx.drawImage(pages[b.page],b.x,b.y,b.w,b.h,(600-b.w*scale)/2,(480-b.h*scale)/2,b.w*scale,b.h*scale);const name=`${String(i+1).padStart(3,'0')}.webp`;fs.writeFileSync(`${out}/${name}`,c.toBuffer('image/webp',85));manifest.push({foto:`${out}/${name}`,pagina:b.page});}
+fs.writeFileSync('fotos-produtos.js','/* Fotos recortadas do Catálogo Apex Safety 2026 v2. */\n(function(){const fotos='+JSON.stringify(manifest)+';window.CATALOGO.forEach((p,i)=>Object.assign(p,fotos[i]));})();\n');
+fs.writeFileSync('scripts/recortes-produtos.json',JSON.stringify(boxes,null,2));
+console.log('Extracted',manifest.length,'photos');

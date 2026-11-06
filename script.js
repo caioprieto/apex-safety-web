@@ -440,7 +440,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (fill) G.fromTo(fill, { scaleX: 0 }, { scaleX: 1, duration: HOLD, ease: "none", overwrite: true });
     call = G.delayedCall(HOLD, () => go(1, null, true));
   };
-  const drift = el => G.fromTo(el.querySelector("img"), { scale: 1.08 }, { scale: 1, duration: HOLD + FADE + 2, ease: "none", overwrite: "auto" });
+  const drift = el => mobile.matches ? null : G.fromTo(el.querySelector("img"), { scale: 1.08 }, { scale: 1, duration: HOLD + FADE + 2, ease: "none", overwrite: "auto" });
 
   const swapText = (to, dir) => {
     const t = textHTML(to), out = [...h1.querySelectorAll(".hl"), lead];
@@ -476,7 +476,7 @@ document.addEventListener("DOMContentLoaded", () => {
       swapText(to, dir);
       autoplay();
     };
-    if (img.complete && img.naturalWidth) run(); else { img.addEventListener("load", run, { once: true }); img.addEventListener("error", autoplay, { once: true }); }
+    if (img.complete && img.naturalWidth) { if (img.decode) img.decode().then(run, run); else run(); } else { img.addEventListener("load", run, { once: true }); img.addEventListener("error", autoplay, { once: true }); }
   }
   const settle = () => { G.to(slides[cur], { x: 0, autoAlpha: 1, duration: .45, ease: "power3.out" }); autoplay(); };
 
@@ -519,6 +519,8 @@ document.addEventListener("DOMContentLoaded", () => {
     window.gsapReady().then(g => {
       if (!g) return;
       G = g;
+      G.ticker.lagSmoothing(0); G.config({ force3D: true });
+      slides.forEach(s => { const i = s.querySelector("img"); if (i) { i.decoding = "async"; if (i.decode) i.decode().catch(() => {}); } });
       G.set(slides, { autoAlpha: 0 }); G.set(slides[0], { autoAlpha: 1, zIndex: 2 });
       if (!reduced) drift(slides[0]);
       section.classList.add("is-interactive");

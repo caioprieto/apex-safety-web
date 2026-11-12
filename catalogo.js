@@ -10,7 +10,8 @@ window.CATEGORIAS = {
   vestimentas: ["Vestimentas", "fa-vest"],
   altura: ["Altura e queda", "fa-person-falling"],
   pele: ["Pele", "fa-pump-soap"],
-  sinalizacao: ["Sinalização", "fa-triangle-exclamation"]
+  sinalizacao: ["Sinalização", "fa-triangle-exclamation"],
+  maisvendidos: ["Mais vendidos", "fa-fire"]
 };
 
 window.CATALOGO = [];
@@ -359,4 +360,19 @@ window.CATALOGO = [];
     ["Óculos Vision 100 Transparente Antirrisco Volk", "", "CPTOC100TR", "visual"],
     ["Óculos Vision 100 Cinza Antirrisco Volk", "", "CPTOV100LCZ", "visual"]
   ]);
+
+  /* Mais vendidos de 2026 (XMLs de venda, por faturamento): código do item → posição no ranking */
+  var MAIS_VENDIDOS = {
+    "CPTBTELM4018BELF": 1,   /* Botina Bracol Elástico Microfibra Composite (4045BELF) */
+    "CPTBT4066BDGM1600": 2,  /* Bota Frigorífica Branca Bracol c/ forro (4066BDGM) */
+    "CPTLATSS1008": 3,       /* Luva Anticorte 1008 Super Safety */
+    "MLB1079585413": 4,      /* Bota PVC Branca Cano Curto Bracol (82BPC600) */
+    "CPTBMCFJB40": 5,        /* Botina Fujiwara Microfibra Composite (4065HESM) */
+    "CPTBTBELS1600v": 6,     /* Botina Bracol Bico Composite (2020BELS) */
+    "CPTABRCP3M": 7,         /* Abafador Pomp Muffler 3M */
+    "CPTLVNSSPVK": 8,        /* Luva Nitrílica Sensi Soft Volk (cx 100) */
+    "MLB1088407236": 9,      /* Botina Bracol Usafe Bico PVC (4098USES) */
+    "CPT4018BELS": 10        /* Botina Bracol Elástico Composite (4045BELS) */
+  };
+  window.CATALOGO.forEach(function (p) { if (MAIS_VENDIDOS[p.cod]) p.rank = MAIS_VENDIDOS[p.cod]; });
 })();

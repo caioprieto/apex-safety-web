@@ -1217,9 +1217,9 @@ a:focus-visible,button:focus-visible { outline:3px solid #f78b4d; outline-offset
 }
 
 /* Altura constante evita reposicionar os filtros durante o scroll. */
-.catalog-page { --catalog-header-height: 71px; }
+.catalog-page { --catalog-header-height: 85px; }
 .catalog-page .site-header .nav,
-.catalog-page .site-header.scrolled .nav { height: 70px; transition: none; }
+.catalog-page .site-header.scrolled .nav { height: 84px; transition: none; }
 .catalog-page .site-header .brand img,
 .catalog-page .site-header.scrolled .brand img { height: 52px; margin: 0; transition: none; }
 .catalog-page .catalog-filter-panel {
@@ -1624,8 +1624,38 @@ a:focus-visible,button:focus-visible { outline:3px solid #f78b4d; outline-offset
   .hero-copy h1 .hl, .hero-copy .lead { will-change: auto; }
 }
 
+/* Altura do hero fixa no desktop: não muda conforme o texto do slide */
+@media (min-width: 821px) { .hero-home.has-slides { min-height: 724px; box-sizing: border-box; } }
+
+/* Slide das marcas: parede de logos à direita, dissolvendo no fundo */
+.hero-slide-brands { aspect-ratio: 1536 / 1024; }
+.hero-slide-brands img { object-position: right center; }
+@media (max-width: 820px) {
+  .hero-slide.hero-slide-brands { top: 78px; bottom: auto; height: clamp(250px, 78vw, 330px); overflow: hidden;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 72%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 72%, transparent 100%); }
+  .hero-slide-brands img { object-position: 70% 40%; }
+}
+
+/* Slide "Para Empresas": foto à direita + chips de benefícios */
+.hero-slide-empresas { aspect-ratio: 1536 / 1024; }
+.hero-slide-empresas img { object-position: right center; }
+.hero-chips { list-style: none; margin: 20px 0 -92px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; max-width: 560px; }
+.hero-chips li { display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px 7px 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.05); font-size: 12.5px; font-weight: 500; line-height: 1.2; color: #eceef7; }
+.hero-chips li i { color: var(--orange); font-size: 15px; }
+.hero-actions .btn > i:first-child:not(:last-child) { margin-right: 4px; }
+@media (max-width: 820px) {
+  .hero-slide.hero-slide-empresas { top: 78px; bottom: auto; height: clamp(250px, 78vw, 330px); overflow: hidden;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 72%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 72%, transparent 100%); }
+  .hero-slide-empresas img { object-position: 70% 30%; }
+}
+
 /* Slides maiores que a tela: o deslize da animação nunca deixa uma faixa escura nas laterais */
 @media (min-width: 821px) { .hero-slide { right: -3vw; } }
+/* "Para Empresas": imagem larga que sangra até a borda direita (sem corte visível) */
+@media (min-width: 821px) {
+  .hero-slide.hero-slide-empresas { right: -10vw; width: calc(min(66vw, 1000px) + 10vw); aspect-ratio: auto; }
+  .hero-slide-empresas img { object-fit: cover; object-position: 50% 30%; }
+}
 @media (max-width: 820px) { .hero-slide, .hero-slide.hero-slide-van { left: -10%; right: -10%; width: auto; } }
 
 /* Select customizado dentro de formulários: acompanha os inputs e usa a lista do filtro de marcas */
@@ -1663,3 +1693,222 @@ select.sr-only-select { position: absolute; width: 1px; height: 1px; opacity: 0;
 .hero-arrow:hover, .hero-arrow:focus-visible { background: rgba(255,255,255,.42); border-color: rgba(255,255,255,.8); }
 .hero-arrow:active { background: rgba(255,255,255,.54); border-color: rgba(255,255,255,.92); }
 @media (hover: none) { .hero-arrow:hover { background: rgba(255,255,255,.24); border-color: rgba(255,255,255,.55); color: #fff; box-shadow: 0 4px 16px -6px rgba(0,0,0,.55); } .hero-arrow:active { background: rgba(255,255,255,.54); border-color: rgba(255,255,255,.92); } }
+
+/* Slide "Para Empresas": o bloco de texto é mais alto (chips); sobe para ficar centrado no hero */
+@media (min-width: 821px) {
+  .hero-home.has-slides .hero-copy { position: relative; top: 0; transition: top .5s ease; }
+  .hero-home.has-slides .hero-copy:has(.hero-chips) { top: -38px; }
+}
+
+/* Ícone à esquerda do botão (sem o bloco/padding da seta) */
+.hero-home .hero-actions .btn.btn-cta-lg i.ico-lead { margin: 0 8px 0 0; padding: 0; background: none; font-size: 16px; }
+.hero-home .hero-actions .btn.btn-cta-lg:hover i.ico-lead { padding: 0; }
+
+/* Mobile: chips em grade compacta, botão sem estourar */
+@media (max-width: 820px) {
+  .hero-chips { margin: 0 0 4px; max-width: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .hero-chips li { padding: 8px 10px 8px 9px; font-size: 12px; gap: 7px; border-radius: 11px; }
+  .hero-chips li i { font-size: 14px; flex: none; }
+  .hero-chips li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .hero-home .hero-actions .btn.btn-cta-lg:has(i.ico-lead) { padding-left: 16px; font-size: 14px !important; }
+  .hero-home .hero-actions .btn.btn-cta-lg:has(i.ico-lead) i:last-child { padding: 0 18px 0 22px; margin-left: 8px; }
+}
+
+/* Mobile: fotos dos banners de marcas e empresas maiores e em destaque */
+@media (max-width: 820px) {
+  .hero-home.has-slides { min-height: 830px; }
+  .hero-slide.hero-slide-brands, .hero-slide.hero-slide-empresas { top: 64px; height: clamp(300px, 96vw, 400px); left: -10%; right: -10%; width: auto; aspect-ratio: auto; }
+  .hero-slide-brands img, .hero-slide-empresas img { object-fit: cover; object-position: 50% 40%; }
+  .hero-slide-empresas img { object-position: 60% 30%; }
+  .hero-slide.hero-slide-brands, .hero-slide.hero-slide-empresas {
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 80%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 80%, transparent 100%); }
+}
+@media (min-width: 560px) and (max-width: 820px) {
+  .hero-slide-brands img, .hero-slide-empresas img { object-fit: contain; object-position: 50% 50%; }
+}
+@media (min-width: 560px) and (max-width: 820px) {
+  .hero-slide.hero-slide-brands, .hero-slide.hero-slide-empresas {
+    -webkit-mask-image: radial-gradient(ellipse 29% 56% at 50% 50%, #000 50%, transparent 100%); mask-image: radial-gradient(ellipse 29% 56% at 50% 50%, #000 50%, transparent 100%); }
+}
+
+/* Botão flutuante do WhatsApp */
+.wa-float {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: #fff;
+  text-decoration: none;
+  font: 600 14px/1 var(--font);
+  transition: transform .25s ease;
+}
+.wa-float__label {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0;
+  order: -1;
+  padding: 11px 0;
+  border-radius: 999px;
+  background: var(--navy);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(18, 19, 42, .25);
+  transition: max-width .35s ease, opacity .25s ease, padding .35s ease, margin .35s ease;
+}
+.wa-float__icon {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #3be07f, #1faa52);
+  color: #fff;
+  font-size: 28px;
+  box-shadow: 0 10px 26px rgba(31, 170, 82, .45), 0 2px 6px rgba(18, 19, 42, .15);
+}
+.wa-float__icon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid #25d366;
+  animation: wa-pulse 2.4s ease-out infinite;
+}
+.wa-float:hover {
+  transform: translateY(-3px);
+}
+.wa-float:hover .wa-float__label { max-width: 140px; opacity: 1; padding: 11px 16px; margin-right: 10px; }
+.wa-float:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+@keyframes wa-pulse {
+  0% { transform: scale(1); opacity: .7; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+@media (max-width: 640px) {
+  .wa-float { right: 16px; bottom: 16px; }
+  .wa-float__icon { width: 50px; height: 50px; font-size: 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wa-float, .wa-float__label { transition: none; }
+  .wa-float__icon::after { animation: none; display: none; }
+}
+
+/* Página Sobre: números, trajetória, equipe e unidades */
+.story-sec .title, .team-sec .title, .places-sec .title { margin-bottom: 32px; }
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 40px; }
+.stat { background: var(--navy); color: #fff; border-radius: 20px; padding: 28px; }
+.stat b { display: block; font: 800 clamp(34px, 5vw, 52px)/1 var(--display); color: var(--peach); letter-spacing: -.02em; }
+.stat span { display: block; margin-top: 8px; color: rgba(255,255,255,.75); }
+.timeline { list-style: none; margin: 0 0 40px; padding: 0 0 0 4px; position: relative; }
+.timeline::before { content: ""; position: absolute; left: 49px; top: 8px; bottom: 8px; width: 2px; background: var(--line); }
+.timeline li { display: flex; gap: 24px; align-items: flex-start; padding: 12px 0; position: relative; }
+.tl-year { flex: 0 0 auto; min-width: 92px; padding: 6px 0; text-align: center; border-radius: 999px; background: var(--orange); color: #fff; font: 700 14px/1.6 var(--display); position: relative; z-index: 1; }
+.timeline h3 { margin: 4px 0 4px; font: 700 18px/1.3 var(--display); color: var(--text); }
+.timeline p { margin: 0; color: var(--muted); }
+.story-brands { text-align: center; padding: 28px 0; border-top: 1px solid var(--line); }
+.story-brands p { margin: 0 0 18px; color: var(--muted); font-size: 14px; }
+.sb-logos { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px 36px; }
+.sb-logos img { height: 40px; width: auto; max-width: 130px; object-fit: contain; }
+.pix-note { display: flex; align-items: center; gap: 14px; margin-top: 8px; padding: 16px 20px; border-radius: 16px; background: #fff4ec; border: 1px solid #f9d8c0; color: var(--orange-ink); }
+.pix-note i { font-size: 22px; }
+.pix-note b { display: block; font: 700 17px/1.2 var(--display); }
+.pix-note span { color: var(--text); font-size: 14px; }
+.team-photo { margin: 0; border-radius: 24px; overflow: hidden; box-shadow: 0 30px 60px -34px rgba(10,13,28,.6); }
+.team-photo img { display: block; width: 100%; height: auto; max-height: 520px; object-fit: cover; }
+.places { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.place { border: 1px solid var(--line); border-radius: 20px; overflow: hidden; background: var(--white); }
+.place iframe { display: block; width: 100%; height: 260px; border: 0; }
+.place-info { padding: 18px 20px; }
+.place-info h3 { margin: 0 0 6px; font: 700 18px/1.2 var(--display); }
+.place-info p { margin: 0; color: var(--muted); }
+.place-info i { color: var(--orange-ink); margin-right: 6px; }
+@media (max-width: 720px) {
+  .stats, .places { grid-template-columns: 1fr; }
+  .timeline::before { left: 45px; }
+  .tl-year { min-width: 84px; }
+  .timeline li { gap: 16px; }
+}
+
+/* Sobre: sem espaço sobrando entre a última seção e o rodapé */
+.section-end { padding-bottom: 72px; }
+
+/* Mobile: respiro entre o banner "Apex Safety" e a seção seguinte */
+@media (max-width: 820px) { main .about-sec { padding-bottom: 32px; } }
+
+/* Hero: três diferenciais comerciais em cards de vidro */
+.hero-feats.hero-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 0; max-width: 600px; font-size: 12px; }
+.hero-facts li { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; white-space: normal; border: 1px solid rgba(255,255,255,.14); border-radius: 14px; background: rgba(255,255,255,.06); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.hero-facts li:first-child { padding-left: 14px; border-left: 1px solid rgba(255,255,255,.14); }
+.hero-facts li i { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: rgba(244,124,58,.16); color: var(--orange); font-size: 14px; }
+.hero-facts b { display: block; font: 700 13px/1.25 var(--display); color: #fff; }
+.hero-facts span { display: block; margin-top: 3px; font-size: 11.5px; line-height: 1.3; color: #aeb3c9; }
+@media (max-width: 820px) {
+  .hero-feats.hero-facts { gap: 6px; max-width: none; justify-content: stretch; }
+  .hero-facts li, .hero-facts li:first-child { flex-direction: column; align-items: flex-start; gap: 6px; padding: 9px 8px; border-radius: 12px; }
+  .hero-facts li i { width: 24px; height: 24px; font-size: 12px; border-radius: 7px; }
+  .hero-facts b { font-size: 11.5px; }
+  .hero-facts span { font-size: 10px; margin-top: 2px; }
+}
+
+/* Desktop: cada card ocupa só o necessário, sem quebra de linha no texto */
+@media (min-width: 821px) {
+  .hero-feats.hero-facts { display: flex; flex-wrap: wrap; max-width: none; }
+  .hero-facts li { flex: 0 0 auto; }
+  .hero-facts b, .hero-facts span { white-space: nowrap; }
+}
+
+/* Rodapé: "Ver todas" como pílula com seta em círculo */
+.site-footer li a.sf-all { display: inline-flex; align-items: center; gap: 10px; margin-top: 6px; padding: 7px 8px 7px 16px; border-radius: 999px; border: 1px solid rgba(244,124,58,.45); background: rgba(244,124,58,.08); color: #ffb280; font: 700 13px/1 var(--display); letter-spacing: .01em; transition: background .25s, border-color .25s, color .25s, transform .25s; }
+.site-footer li a.sf-all i { display: grid; place-items: center; flex: none; width: 22px; height: 22px; padding: 0; border: 0; border-radius: 50%; background: var(--orange); color: #fff; font-size: 10px; box-shadow: none; transition: transform .25s; }
+.site-footer li a.sf-all:hover { background: var(--orange); border-color: var(--orange); color: #fff; transform: translateY(-1px); }
+.site-footer li a.sf-all:hover i { background: #fff; color: var(--orange-ink); transform: translateX(2px); }
+.site-footer li a.sf-all:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+
+/* Categoria "Mais vendidos": chip com ícone e selo de posição (1–10) nos cards */
+.catalog-page .chip .fa-fire { color: var(--orange); margin-right: 2px; }
+.catalog-page .chip.on .fa-fire { color: #ffb280; }
+.rank-badge { display: none; position: absolute; right: 12px; top: 10px; z-index: 2; min-width: 34px; height: 34px; padding: 0 8px; box-sizing: border-box; place-items: center; border-radius: 999px; background: var(--orange); color: #fff; font: 800 16px/1 var(--display); box-shadow: 0 6px 14px -4px rgba(244,124,58,.6); }
+.is-ranked .rank-badge { display: grid; }
+
+/* Carrossel de redes: primeiro card = publicação de lançamento da marca (imagem estática, sem embed pesado) */
+.sc-post { text-decoration: none; background: #1e2338; transition: transform .35s ease, box-shadow .35s ease; }
+.sc-post::after { background: linear-gradient(180deg, rgba(10,13,28,0) 62%, rgba(10,13,28,.88) 100%); }
+.sc-post:hover { transform: translateY(-4px); box-shadow: 0 22px 34px -18px rgba(244,124,58,.55); }
+.sc-post .sc-type { background: linear-gradient(135deg, #f58529, #dd2a7b 55%, #8134af); border-color: rgba(255,255,255,.25); color: #fff; }
+.sc-post-cta { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 14px 14px; }
+.sc-post-tag { padding: 5px 10px; border-radius: 999px; background: var(--orange); color: #fff; font: 700 10.5px/1 var(--display); letter-spacing: .06em; text-transform: uppercase; }
+.sc-post-go { display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border-radius: 999px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.22); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); font: 600 12px/1 var(--display); color: #fff; transition: background .25s, color .25s; }
+.sc-post-go i { font-size: 10px; }
+.sc-post:hover .sc-post-go { background: #fff; color: var(--navy); }
+.sc-post:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+.sc-post img { inset: 0; height: 100%; object-position: 40% 0; }
+
+/* Carrossel de redes: ícone de tipo maior em vidro claro e sem sombra sob os cards */
+.sc-card, .sc-post:hover { box-shadow: none; }
+.sc-viewport { padding-bottom: 4px; }
+.sc-type, .sc-post .sc-type { top: 14px; right: 14px; width: 44px; height: 44px; border-radius: 14px; font-size: 19px; color: #fff; background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.35); backdrop-filter: blur(10px) saturate(1.2); -webkit-backdrop-filter: blur(10px) saturate(1.2); box-shadow: inset 0 1px 0 rgba(255,255,255,.3); }
+.sc-cut .sc-type { color: var(--navy); background: rgba(255,255,255,.55); border-color: rgba(30,35,56,.12); }
+
+/* Cards de publicação mais altos */
+.sc-card { aspect-ratio: 1 / 1; }
+
+.sc-dots { padding-top: 15px; margin-top: 0; }
+
+/* Mais vendidos: medalhas com louros (1º–3º) e selo suave (4º em diante) */
+.rank-badge { right: 14px; top: 12px; box-shadow: none; font-family: var(--display); letter-spacing: -.01em; }
+.rank-badge.rank-n { min-width: 40px; height: 34px; padding: 0 10px; border-radius: 12px; background: #ffe6d6; color: var(--orange-ink); font-weight: 800; font-size: 15px; }
+.rank-badge.rank-top { width: 46px; height: 46px; min-width: 46px; padding: 0; right: 14px; top: 12px; border-radius: 50%; color: #fff; font-weight: 800; font-size: 18px; text-shadow: 0 1px 2px rgba(0,0,0,.28); border: 2px solid rgba(255,255,255,.75); }
+.rank-1 { --laurel: #c99416; background: linear-gradient(145deg, #ffe28a, #e6a91f 60%, #c98a0e); box-shadow: 0 8px 18px -6px rgba(201,138,14,.7); }
+.rank-2 { --laurel: #8f9aa8; background: linear-gradient(145deg, #e4e9ef, #a9b3c0 60%, #7f8b9a); box-shadow: 0 8px 18px -6px rgba(95,108,125,.6); }
+.rank-3 { --laurel: #c0661d; background: linear-gradient(145deg, #ffb878, #e07a2a 60%, #b85a14); box-shadow: 0 8px 18px -6px rgba(184,90,20,.65); }
+.rank-badge em { position: absolute; left: 50%; top: calc(100% + 6px); transform: translateX(-50%); padding: 3px 12px; font: 700 9.5px/1.2 var(--display); font-style: normal; letter-spacing: .03em; white-space: nowrap; text-shadow: none; color: #fff; background: var(--orange-ink); clip-path: polygon(0 0, 100% 0, 92% 50%, 100% 100%, 0 100%, 8% 50%); }
+.is-ranked .rank-top { isolation: isolate; }
+
+/* Dropdown de Produtos: ícone das categorias sem foto (ex.: Mais vendidos) proporcional às fotos */
+.dd-ico.no-img i { font-size: 28px; filter: drop-shadow(0 3px 4px rgba(217,96,26,.3)); }
+@media (max-width: 820px) { .home .dd-ico.no-img i { font-size: 46px; filter: drop-shadow(0 6px 10px rgba(244,124,58,.45)); } }

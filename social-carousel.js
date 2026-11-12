@@ -81,7 +81,14 @@
     if (Math.abs(moved) > 50 || flick) go(page + ((flick ? vel : moved) < 0 ? 1 : -1)); else go(page);
     restart();
   };
-  viewport.addEventListener("pointerup", end);
+  /* Toque/clique sem arrastar abre o link do card (o pointer capture impede o clique nativo) */
+  viewport.addEventListener("pointerup", function (e) {
+    var tap = dragging && Math.abs(moved) < 6;
+    end();
+    if (!tap) return;
+    var el = document.elementFromPoint(e.clientX, e.clientY), a = el && el.closest("a.sc-card");
+    if (a) window.open(a.href, a.target || "_self", "noopener");
+  });
   viewport.addEventListener("pointercancel", end);
 
   root.addEventListener("mouseenter", stop);

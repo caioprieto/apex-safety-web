@@ -72,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* Dropdown de Produtos */
   const DD = [
+    ["maisvendidos", "Mais vendidos", "Os 10 itens mais vendidos de 2026", "fa-fire"],
     ["cabeca", "Cabeça", "Capacetes, bonés e toucas", "fa-helmet-safety"],
     ["maos", "Mãos", "Luvas de todos os tipos", "fa-hand"],
     ["visual", "Visual e facial", "Óculos e protetores faciais", "fa-glasses"],
@@ -150,10 +151,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const linhasForm = ["cabeca", "maos", "visual", "auditiva", "vestimentas", "altura", "pes"];
 
     const contagem = {};
-    dados.forEach(d => { contagem[d.cat] = (contagem[d.cat] || 0) + 1; });
+    dados.forEach(d => { contagem[d.cat] = (contagem[d.cat] || 0) + 1; if (d.rank) contagem.maisvendidos = (contagem.maisvendidos || 0) + 1; });
+    const inCat = (d, k) => k === "todos" || (k === "maisvendidos" ? !!d.rank : d.cat === k);
     const mkChip = (k, label) => `<button class="chip${k === catAtual ? " on" : ""}" data-f="${k}">${label}</button>`;
     filtros.innerHTML = mkChip("todos", `Todos (${dados.length})`) +
-      Object.keys(cats).filter(k => contagem[k]).map(k => mkChip(k, `${cats[k][0]} (${contagem[k]})`)).join("");
+      mkChip("maisvendidos", `<i class="fa-solid fa-fire"></i> ${cats.maisvendidos[0]} (${contagem.maisvendidos})`) +
+      Object.keys(cats).filter(k => k !== "maisvendidos" && contagem[k]).map(k => mkChip(k, `${cats[k][0]} (${contagem[k]})`)).join("");
     [...new Set(dados.map(d => d.marca))].forEach(m => selMarca.insertAdjacentHTML("beforeend", `<option>${esc(m)}</option>`));
 
     grid.innerHTML = dados.map((d, index) => {
@@ -161,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const msg = `Olá! Gostaria de cotar: ${d.nome} (${d.marca}${d.ca ? ", " + d.ca : ""}, cód. ${d.cod}).`;
       const linha = linhasForm.includes(d.cat) ? d.cat : "";
       return `<article class="prod">
-        <a class="prod-img" href="produto.html?id=${index}" aria-label="Ver ${esc(d.nome)}"><span class="prod-tag">${esc(c[0])}</span><img src="${d.foto}" alt="${esc(d.nome)}" width="480" height="400" loading="lazy" decoding="async"></a>
+        <a class="prod-img" href="produto.html?id=${index}" aria-label="Ver ${esc(d.nome)}"><span class="prod-tag">${esc(c[0])}</span>${d.rank ? `<span class="rank-badge ${d.rank <= 3 ? "rank-top rank-" + d.rank : "rank-n"}" aria-label="Posição ${d.rank} entre os mais vendidos">${d.rank}º${d.rank === 1 ? "<em>Mais vendido</em>" : ""}</span>` : ""}<img src="${d.foto}" alt="${esc(d.nome)}" width="480" height="400" loading="lazy" decoding="async"></a>
         <div class="prod-body"><span class="product-brand-logo"><img src="${window.MARCAS[d.marca]}" alt="${esc(d.marca)}" width="110" height="43" loading="lazy" decoding="async"></span><h3><a href="produto.html?id=${index}">${esc(d.nome)}</a></h3>
           <div class="ids">${d.ca ? `<span class="ca-badge">${esc(d.ca)}</span>` : ""}<span class="ca">${esc(d.cod)}</span></div>
           <div class="prod-foot"><a class="more" href="produto.html?id=${index}">Ver detalhes <i class="fa-solid fa-arrow-right"></i></a><a class="btn btn-primary btn-sm btn-nav-cta btn-card-quote" href="orcamento.html?linha=${linha}&msg=${encodeURIComponent(msg)}">Cotar <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></div></div>
@@ -221,12 +224,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const q = norm(busca.value.trim()), m = selMarca.value;
       let n = 0;
       const porCat = { todos: 0 };
+      grid.classList.toggle("is-ranked", catAtual === "maisvendidos");
       cards.forEach((el, i) => {
         const d = dados[i];
         const base = (!m || d.marca === m) && (!q || textos[i].includes(q));
-        if (base) { porCat.todos++; porCat[d.cat] = (porCat[d.cat] || 0) + 1; }
-        const ok = base && (catAtual === "todos" || d.cat === catAtual);
+        if (base) { porCat.todos++; porCat[d.cat] = (porCat[d.cat] || 0) + 1; if (d.rank) porCat.maisvendidos = (porCat.maisvendidos || 0) + 1; }
+        const ok = base && inCat(d, catAtual);
         el.hidden = !ok;
+        el.style.order = catAtual === "maisvendidos" && d.rank ? d.rank : "";
         if (ok) n++;
       });
       /* Contadores das categorias acompanham busca e marca */
@@ -234,7 +239,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const k = c.dataset.f, total = porCat[k] || 0;
         const nome = k === "todos" ? "Todos" : cats[k][0];
         const txt = `${nome} (${total})`;
-        if (c.textContent !== txt) c.textContent = txt;
+        if (k === "maisvendidos") { const n = c.lastChild; if (n && n.nodeType === 3 && n.textContent !== ` ${txt}`) n.textContent = ` ${txt}`; }
+        else if (c.textContent !== txt) c.textContent = txt;
         c.classList.toggle("is-zero", total === 0);
       });
       $$(".chip", filtros).forEach(c => (c.classList.toggle("on", c.dataset.f === catAtual), c.setAttribute("aria-pressed", String(c.dataset.f === catAtual))));
@@ -413,6 +419,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (slides.length < 2) return;
   const h1 = section.querySelector(".hero-copy h1"), lead = section.querySelector(".hero-copy .lead");
   const bars = Array.from(section.querySelectorAll(".hero-bar"));
+  const actionsEl = section.querySelector(".hero-actions"), featsEl = section.querySelector(".hero-feats");
+  const base = { actions: actionsEl.innerHTML, feats: featsEl.innerHTML, cls: featsEl.className };
+  const extra = (i, k) => { const t = slides[i].querySelector(`template[data-${k}]`); return t ? { html: t.innerHTML, cls: t.dataset.class || base.cls } : { html: base[k], cls: base.cls }; };
+  const applyExtra = i => { actionsEl.innerHTML = extra(i, "actions").html; const f = extra(i, "feats"); featsEl.innerHTML = f.html; featsEl.className = f.cls; };
+  const targets = () => [...h1.querySelectorAll(".hl"), lead, actionsEl, featsEl];
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const HOLD = 7, FADE = 0.9;
@@ -443,20 +454,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const drift = el => mobile.matches ? null : G.fromTo(el.querySelector("img"), { scale: 1.08 }, { scale: 1, duration: HOLD + FADE + 2, ease: "none", overwrite: "auto" });
 
   const swapText = (to, dir) => {
-    const t = textHTML(to), out = [...h1.querySelectorAll(".hl"), lead];
+    const t = textHTML(to), out = targets();
     G.to(out, { opacity: 0, x: -28 * dir, duration: .28, ease: "power2.in", stagger: .04, overwrite: true, onComplete: () => {
-      h1.innerHTML = t.h1; lead.textContent = t.lead;
-      G.fromTo([...h1.querySelectorAll(".hl"), lead], { opacity: 0, x: 34 * dir }, { opacity: 1, x: 0, duration: .6, ease: "power3.out", stagger: .09, clearProps: "transform" });
+      h1.innerHTML = t.h1; lead.textContent = t.lead; applyExtra(to);
+      G.fromTo(targets(), { opacity: 0, x: 34 * dir }, { opacity: 1, x: 0, duration: .6, ease: "power3.out", stagger: .09, clearProps: "transform" });
     } });
   };
 
   /* Conclui na hora qualquer transição em andamento, para o usuário poder interagir a qualquer momento */
   const finish = () => {
     if (!busy) return;
-    G.killTweensOf(slides); G.killTweensOf([...h1.querySelectorAll(".hl"), lead]);
+    G.killTweensOf(slides); G.killTweensOf(targets());
     slides.forEach((s, i) => G.set(s, i === cur ? { x: 0, xPercent: 0, autoAlpha: 1, zIndex: 2 } : { x: 0, xPercent: 0, autoAlpha: 0, zIndex: 1 }));
-    const t = textHTML(cur); h1.innerHTML = t.h1; lead.textContent = t.lead;
-    G.set([...h1.querySelectorAll(".hl"), lead], { opacity: 1, x: 0 });
+    const t = textHTML(cur); h1.innerHTML = t.h1; lead.textContent = t.lead; applyExtra(cur);
+    G.set(targets(), { opacity: 1, x: 0 });
     busy = false;
   };
   function go(dir, target, auto) {
